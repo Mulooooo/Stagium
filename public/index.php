@@ -1,7 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../src/Core/Router.php';
-require_once __DIR__ . '/../src/Controllers/HomeController.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+use App\Core\Router;
+use App\Controllers\HomeController;
 
 $r = new Router();
 
