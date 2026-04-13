@@ -3,6 +3,7 @@
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 use App\Core\Router;
 use App\Controllers\HomeController;
+use App\Controllers\OfferController;
 
 $db = App\Models\Database::getInstance();
 
@@ -12,7 +13,10 @@ $r->addRoute('/', function() {
     $c = new HomeController();
     $c->index();
 });
-$r->addRoute('/about', function() { echo "About page";});
-$r->addRoute('/contact', function() { echo "Contact page";});
+
+$r->addRoute('/offers', function() {
+    $c = new OfferController();
+    $c->index();
+});
 
 $r->run();
