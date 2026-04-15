@@ -9,7 +9,7 @@ class Router{
     }
 
     public function run() {
-        $url = $_SERVER['REQUEST_URI'];
+        $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         if (isset($this->routes[$url])) {
             $handler = $this->routes[$url];
             $handler();

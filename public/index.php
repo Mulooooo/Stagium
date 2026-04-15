@@ -19,4 +19,9 @@ $r->addRoute('/offers', function() {
     $c->index();
 });
 
+$r->addRoute('/offers/show', function() {
+    $c = new OfferController();
+    $c->show();
+});
+
 $r->run();
