@@ -6,7 +6,7 @@
     <div>
     {% for offer in offers %}
         <div>
-        <p>{{ offer.titre }}</p>
+        <a href="/offers/show?id={{ offer.id }}">{{ offer.titre }}</a>
         <p>{{ offer.nom }}</p>
         <p>{{ offer.ville }}</p>
         <p>{{ offer.date_debut }}</p>
