@@ -16,6 +16,7 @@ class TemplateEngine{
     public function render(string $template, array $data = []) {
         $globalData = [
             'is_logged_in' => isset($_SESSION['user_id']),
+            'user_name' => $_SESSION['user_name'] ?? null,
         ];
         $finalData = array_merge($globalData, $data);
         echo $this->twig->render($template, $finalData);
