@@ -12,6 +12,11 @@
                 <li><a href="/offers">Offres de stage</a></li>
             </ul>
         </nav>
+        {% if is_logged_in %}
+            <a href="/logout">Déconnexion</a>
+        {% else %}
+            <a href="/login">Connexion</a>
+        {% endif %}
     </header>
     {% block content %}{% endblock %}
 </body>
