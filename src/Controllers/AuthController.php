@@ -25,4 +25,11 @@ class AuthController {
         $render = new TemplateEngine;
         $render->render("auth/login.html.twig", ['title' => 'Login', 'error' => $error]);
     }
+
+    public function logout() {
+        session_unset();
+        session_destroy();
+        header('Location: /login');
+        exit;
+    }
 }

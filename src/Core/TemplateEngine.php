@@ -13,7 +13,11 @@ class TemplateEngine{
         $this->twig = new Environment($loader);
     }
 
-    public function render(string $template, array $data) {
-        echo($this->twig->render($template, $data));
+    public function render(string $template, array $data = []) {
+        $globalData = [
+            'is_logged_in' => isset($_SESSION['user_id']),
+        ];
+        $finalData = array_merge($globalData, $data);
+        echo $this->twig->render($template, $finalData);
     }
 }

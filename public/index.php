@@ -22,6 +22,11 @@ $r->addRoute('/login', function() {
     $c->login();
 });
 
+$r->addRoute('/logout', function() {
+    $c = new AuthController();
+    $c->logout();
+});
+
 $r->addRoute('/offers', function() {
     $c = new OfferController();
     $c->index();
