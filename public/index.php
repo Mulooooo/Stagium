@@ -12,29 +12,14 @@ $db = App\Models\Database::getInstance();
 
 $r = new Router();
 
-$r->addRoute('/', function() {
-    $c = new HomeController();
-    $c->index();
-});
+$r->addRoute('/', [HomeController::class, 'index']);
 
-$r->addRoute('/login', function() {
-    $c = new AuthController();
-    $c->login();
-});
+$r->addRoute('/login', [AuthController::class, 'login']);
 
-$r->addRoute('/logout', function() {
-    $c = new AuthController();
-    $c->logout();
-});
+$r->addRoute('/logout', [AuthController::class, 'logout']);
 
-$r->addRoute('/offers', function() {
-    $c = new OfferController();
-    $c->index();
-});
+$r->addRoute('/offers', [OfferController::class, 'index']);
 
-$r->addRoute('/offers/show', function() {
-    $c = new OfferController();
-    $c->show();
-});
+$r->addRoute('/offers/show', [OfferController::class, 'show']);
 
 $r->run();
