@@ -29,7 +29,20 @@ class CompanyController extends Controller{
         $this->render("companies/create.html.twig");
     }
     public function edit(){
-
+        $id = $_GET['id'] ?? null;
+        if (!$id) { 
+            header('Location: /companies'); 
+            exit;
+        }
+        $comanyModel = new CompanyModel();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = $_POST;
+            $company = $comanyModel->update($id, $data);
+            header('Location: /companies');
+            exit;
+        }
+        $company = $comanyModel->findById($id);
+        $this->render("companies/edit.html.twig", ['company' => $company]);
     }
     public function delete(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

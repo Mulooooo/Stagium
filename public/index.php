@@ -25,5 +25,6 @@ $r->addRoute('/companies', [CompanyController::class, 'index']);
 $r->addRoute('/companies/show', [CompanyController::class, 'show']);
 $r->addRoute('/companies/create', [CompanyController::class, 'create'], ['pilote', 'administrateur']);
 $r->addRoute('/companies/delete', [CompanyController::class, 'delete'], ['pilote', 'administrateur']);
+$r->addRoute('/companies/edit', [CompanyController::class, 'edit'], ['pilote', 'administrateur']);
 
 $r->run();
