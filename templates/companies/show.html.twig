@@ -10,5 +10,9 @@
     <p>{{ company.telephone }}</p>
     <p>{{ company.date_creation }}</p>
     <p>{{ company.siren }}</p>
+    <form method="post" action="/companies/delete">
+        <input type="hidden" name="id" value="{{ company.id }}">
+        <button type="submit">Supprimer</button>
+    </form>
     </div>
 {% endblock %}

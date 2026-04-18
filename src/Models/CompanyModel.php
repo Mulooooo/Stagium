@@ -18,6 +18,8 @@ class CompanyModel extends Model{
     }
     public function update(){
     }
-    public function delete(){
+    public function delete($id){
+        $stmt = $this->db->prepare("DELETE FROM ENTREPRISE WHERE id = :id;");
+        return $stmt->execute([':id' => $id]);
     }
 }

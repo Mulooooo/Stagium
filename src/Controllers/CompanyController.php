@@ -32,6 +32,12 @@ class CompanyController extends Controller{
 
     }
     public function delete(){
-
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
+            $comanyModel = new CompanyModel();
+            $companies = $comanyModel->delete($id);
+            header('Location: /companies');
+            exit;
+        }
     }
 }
