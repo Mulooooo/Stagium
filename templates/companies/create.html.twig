@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Creer une entreprise
+{% endblock %}
+{% block content %}
+    <form method="post">
+        <label for="nom">nom de l'entreprise:</label>
+        <input type="text" id="nom" name="nom" 
+            placeholder="nom" required>
+
+        <label for="email">email:</label>
+        <input type="email" id="email" name="email" 
+            placeholder="a@a.a" required>
+
+        <label for="telephone">telephone:</label>
+        <input type="tel" pattern="\d{10}" id="telephone" name="telephone" 
+            placeholder="0123456789" required>
+
+        <label for="siren">siren:</label>
+        <input type="text" pattern="\d{9}" id="siren" name="siren" 
+            placeholder="siren" required>
+
+        <label for="description">description:</label>
+        <textarea id="description" name="description" 
+            placeholder="Une entreprise specialisée dans ..." required>
+        </textarea>
+
+        <button type="submit"> creer </button>
+    </form>
+{% endblock %}

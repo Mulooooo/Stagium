@@ -43,8 +43,8 @@ CREATE TABLE ENTREPRISE (
   description   TEXT NULL,
   email         VARCHAR(255) NOT NULL,
   telephone     VARCHAR(20) NOT NULL,
-  est_active    BOOLEAN NOT NULL,
-  date_creation DATE NOT NULL,
+  est_active    BOOLEAN NOT NULL DEFAULT 1,
+  date_creation DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   secteur_id    INT UNSIGNED NULL,
   PRIMARY KEY (id)
 );

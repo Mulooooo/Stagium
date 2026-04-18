@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Modifier une entreprise
+{% endblock %}
+{% block content %}
+    <form method="post">
+        <label for="nom">nom de l'entreprise:</label>
+        <input type="text" id="nom" name="nom" 
+            value="{{company.nom}}" required>
+
+        <label for="email">email:</label>
+        <input type="email" id="email" name="email" 
+            value="{{company.email}}" required>
+
+        <label for="telephone">telephone:</label>
+        <input type="tel" pattern="\d{10}" id="telephone" name="telephone" 
+            value="{{company.telephone}}" required>
+
+        <label for="siren">siren:</label>
+        <input type="text" pattern="\d{9}" id="siren" name="siren" 
+            value="{{company.siren}}" required>
+
+        <label for="description">description:</label>
+        <textarea id="description" name="description" required>{{company.description}}</textarea>
+
+        <button type="submit"> modifier </button>
+    </form>
+{% endblock %}

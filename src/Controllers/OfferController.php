@@ -1,15 +1,13 @@
 <?php
 namespace App\Controllers;
-
-use App\Core\TemplateEngine;
+use App\Controllers\Controller;
 use App\Models\OfferModel;
 
-class OfferController {
+class OfferController extends Controller{
     public function index() {
         $offerModel = new OfferModel();
         $offers = $offerModel->getActiveOffers();
-        $render = new TemplateEngine;
-        $render->render("offers/index.html.twig", ['offers' => $offers]);
+        $this->render("offers/index.html.twig", ['offers' => $offers]);
     }
 
     public function show() {
@@ -24,8 +22,7 @@ class OfferController {
             http_response_code(404);
             return;
         } else {
-            $render = new TemplateEngine;
-            $render->render("offers/show.html.twig", ['offer' => $offer]);
+            $this->render("offers/show.html.twig", ['offer' => $offer]);
         }
     }
 }

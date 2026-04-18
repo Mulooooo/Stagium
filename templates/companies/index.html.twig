@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Entreprises
+{% endblock %}
+{% block content %}
+    <div>
+    {% for company in companies %}
+        <div>
+        <a href="/companies/show?id={{ company.id }}">{{ company.nom }}</a>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

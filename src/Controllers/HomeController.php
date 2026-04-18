@@ -1,11 +1,8 @@
 <?php
 namespace App\Controllers;
 
-use App\Core\TemplateEngine;
-
-class HomeController{
+class HomeController extends Controller{
     public function index(){
-        $render = new TemplateEngine;
-        $render->render("home.html.twig", ['title' => 'Hello World!']);
+        $this->render("home.html.twig", ['title' => 'Hello World!']);
     }
 }

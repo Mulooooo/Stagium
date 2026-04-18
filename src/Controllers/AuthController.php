@@ -1,9 +1,8 @@
 <?php
 namespace App\Controllers;
-use App\Core\TemplateEngine;
 use App\Models\UserModel;
 
-class AuthController {
+class AuthController extends Controller{
     public function login() {
         $error = null;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -23,8 +22,7 @@ class AuthController {
             }
         }
         
-        $render = new TemplateEngine;
-        $render->render("auth/login.html.twig", ['title' => 'Login', 'error' => $error]);
+        $this->render("auth/login.html.twig", ['title' => 'Login', 'error' => $error]);
     }
 
     public function logout() {
