@@ -25,4 +25,8 @@ $r->addRoute('/offers/show', [OfferController::class, 'show']);
 
 $r->addRoute('/companies', [CompanyController::class, 'index']);
 
+$r->addRoute('/companies/show', [CompanyController::class, 'show']);
+
+$r->addRoute('/companies/create', [CompanyController::class, 'create']);
+
 $r->run();

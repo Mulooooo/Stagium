@@ -12,7 +12,9 @@ class CompanyModel extends Model{
         $stmt->execute([':id' => $id]);
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
-    public function create(){
+    public function create($data){
+        $stmt = $this->db->prepare("INSERT INTO ENTREPRISE (siren, nom, description, email, telephone) VALUES (:siren, :nom, :description, :email, :telephone);");
+        return $stmt->execute($data);
     }
     public function update(){
     }

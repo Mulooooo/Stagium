@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Entreprises
+{% endblock %}
+{% block content %}
+    <div>
+    <p>{{ company.nom }}</p>
+    <p>{{ company.description }}</p>
+    <p>{{ company.email }}</p>
+    <p>{{ company.telephone }}</p>
+    <p>{{ company.date_creation }}</p>
+    <p>{{ company.siren }}</p>
+    </div>
+{% endblock %}
