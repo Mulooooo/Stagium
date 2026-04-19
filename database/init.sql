@@ -90,8 +90,8 @@ CREATE TABLE OFFRE_STAGE (
   gratification    INT UNSIGNED NULL,
   date_debut       DATE NOT NULL,
   duree_semaines   TINYINT UNSIGNED NOT NULL,
-  est_active       BOOLEAN NOT NULL,
-  date_publication DATE NOT NULL,
+  est_active       BOOLEAN NOT NULL DEFAULT 1,
+  date_publication DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   site_entreprise_id INT UNSIGNED NOT NULL,
   PRIMARY KEY (id)
 );

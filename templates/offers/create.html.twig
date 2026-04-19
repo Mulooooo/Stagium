@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Creer une offre
+{% endblock %}
+{% block content %}
+    <form method="post">
+        <label for="titre">titre:</label>
+        <input type="text" id="titre" name="titre" 
+            placeholder="titre" required>
+
+        <select name="site_entreprise_id">
+        {% for site in sites %}
+            <option value="{{ site.id }}">{{ site.nom }} - {{ site.nom_site }}</option>
+        {% endfor %}
+        </select>
+
+        <label for="date_debut">date de debut:</label>
+        <input type="date" id="date_debut" name="date_debut" 
+            placeholder="date_debut" required>
+
+        <label for="duree_semaines">duree en semaines:</label>
+        <input type="number" min="1" max="52" id="duree_semaines" name="duree_semaines" 
+            placeholder="duree_semaines" required>
+
+        <label for="gratification">gratification:</label>
+        <input type="number" min="0" id="gratification" name="gratification" 
+            placeholder="gratification" required>
+
+        <label for="description">description:</label>
+        <textarea id="description" name="description" 
+            placeholder="Vous devrez..." required></textarea>
+
+        <button type="submit"> creer </button>
+    </form>
+{% endblock %}
