@@ -42,15 +42,16 @@ class OfferController extends Controller{
             header('Location: /offers'); 
             exit;
         }
-        $comanyModel = new OfferModel();
+        $offerModel = new OfferModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = $_POST;
-            $offer = $comanyModel->update($id, $data);
+            $offer = $offerModel->update($id, $data);
             header('Location: /offers');
             exit;
         }
-        $offer = $comanyModel->findById($id);
-        $this->render("offers/edit.html.twig", ['offer' => $offer]);
+        $offer = $offerModel->getOfferById($id);
+        $sites = $offerModel->getSites();
+        $this->render("offers/edit.html.twig", ['offer' => $offer, 'sites' => $sites]);
     }
     public function delete(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -21,6 +21,8 @@ $r->addRoute('/logout', [AuthController::class, 'logout']);
 $r->addRoute('/offers', [OfferController::class, 'index']);
 $r->addRoute('/offers/show', [OfferController::class, 'show']);
 $r->addRoute('/offers/create', [OfferController::class, 'create'], ['pilote', 'administrateur']);
+$r->addRoute('/offers/delete', [OfferController::class, 'delete'], ['pilote', 'administrateur']);
+$r->addRoute('/offers/edit', [OfferController::class, 'edit'], ['pilote', 'administrateur']);
 
 $r->addRoute('/companies', [CompanyController::class, 'index']);
 $r->addRoute('/companies/show', [CompanyController::class, 'show']);
