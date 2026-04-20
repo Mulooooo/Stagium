@@ -16,7 +16,7 @@ CREATE TABLE CAMPUS (
 
 CREATE TABLE CANDIDATURE (
   id               INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  date_candidature DATE NOT NULL,
+  date_candidature DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   chemin_lm        VARCHAR(255) NOT NULL,
   chemin_cv        VARCHAR(255) NOT NULL,
   offre_id         INT UNSIGNED NOT NULL,
