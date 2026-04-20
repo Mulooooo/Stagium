@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Offres postulées
+{% endblock %}
+{% block content %}
+    <div>
+    {% for application in applications %}
+        <div>
+        <a href="/offers/show?id={{ application.offre_id }}">{{ application.titre }}</a>
+        <p>{{ application.nom }}</p>
+        <p>{{ application.ville }}</p>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
