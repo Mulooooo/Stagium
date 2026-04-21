@@ -7,10 +7,10 @@ class AuthController extends Controller{
         $error = null;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'];
-            $password = $_POST['password'];
+            $mot_de_passe = $_POST['mot_de_passe'];
             $userModel = new UserModel();
             $user = $userModel->findByEmail($email);
-            if ($user != null && password_verify($password, $user['mot_de_passe'])) {
+            if ($user != null && password_verify($mot_de_passe, $user['mot_de_passe'])) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_name'] = $user['prenom'] . ' ' . $user['nom'];
                 $_SESSION['user_role'] = $user['role'];

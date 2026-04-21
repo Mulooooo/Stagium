@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Etudiants
+{% endblock %}
+{% block content %}
+    <div>
+    {% for student in students %}
+        <div>
+            <a href="/students/show?id={{ student.id }}">{{ student.prenom }} {{ student.nom }}</a>
+            <p>{{ student.email }}</p>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

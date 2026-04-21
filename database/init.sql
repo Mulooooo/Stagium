@@ -156,8 +156,8 @@ CREATE TABLE UTILISATEUR (
   prenom        VARCHAR(255) NOT NULL,
   nom           VARCHAR(255) NOT NULL,
   role          ENUM('etudiant', 'pilote', 'administrateur') NOT NULL,
-  est_actif     BOOLEAN NOT NULL,
-  date_creation DATE NOT NULL,
+  est_actif     BOOLEAN NOT NULL DEFAULT 1,
+  date_creation DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 );
 

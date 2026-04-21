@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Etudiants
+{% endblock %}
+{% block content %}
+    <div>
+        <p>{{ student.prenom }} {{ student.nom }}</p>
+        <p>{{ student.email }}</p>
+    </div>
+{% endblock %}
