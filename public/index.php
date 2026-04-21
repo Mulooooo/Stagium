@@ -8,6 +8,7 @@ use App\Controllers\AuthController;
 use App\Controllers\CompanyController;
 use App\Controllers\ApplicationController;
 use App\Controllers\StudentController;
+use App\Controllers\PilotController;
 
 session_start();
 
@@ -40,5 +41,11 @@ $r->addRoute('/students/show', [StudentController::class, 'show']);
 $r->addRoute('/students/create', [StudentController::class, 'create'], ['pilote', 'administrateur']);
 $r->addRoute('/students/edit', [StudentController::class, 'edit'], ['pilote', 'administrateur']);
 $r->addRoute('/students/delete', [StudentController::class, 'delete'], ['pilote', 'administrateur']);
+
+$r->addRoute('/pilots', [PilotController::class, 'index'], ['administrateur']);
+$r->addRoute('/pilots/show', [PilotController::class, 'show'], ['administrateur']);
+$r->addRoute('/pilots/create', [PilotController::class, 'create'], ['administrateur']);
+$r->addRoute('/pilots/edit', [PilotController::class, 'edit'], ['administrateur']);
+$r->addRoute('/pilots/delete', [PilotController::class, 'delete'], ['administrateur']);
 
 $r->run();

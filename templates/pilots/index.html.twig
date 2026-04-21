@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Pilotes
+{% endblock %}
+{% block content %}
+    <div>
+    {% for pilot in pilots %}
+        <div>
+            <a href="/pilots/show?id={{ pilot.id }}">{{ pilot.prenom }} {{ pilot.nom }}</a>
+            <p>{{ pilot.email }}</p>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

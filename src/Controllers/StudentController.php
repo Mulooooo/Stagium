@@ -39,7 +39,8 @@ class StudentController extends Controller {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = $_POST;
             if (empty($data['mot_de_passe'])) {
-                unset($data['mot_de_passe']);
+                $student = $studentModel->findById($id);
+                $data['mot_de_passe'] = $student['mot_de_passe'];
             } else {
                 $data['mot_de_passe'] = password_hash($data['mot_de_passe'], PASSWORD_DEFAULT);
             }
