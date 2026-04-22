@@ -9,6 +9,7 @@ use App\Controllers\CompanyController;
 use App\Controllers\ApplicationController;
 use App\Controllers\StudentController;
 use App\Controllers\PilotController;
+use App\Controllers\WishlistController;
 
 session_start();
 
@@ -47,5 +48,8 @@ $r->addRoute('/pilots/show', [PilotController::class, 'show'], ['administrateur'
 $r->addRoute('/pilots/create', [PilotController::class, 'create'], ['administrateur']);
 $r->addRoute('/pilots/edit', [PilotController::class, 'edit'], ['administrateur']);
 $r->addRoute('/pilots/delete', [PilotController::class, 'delete'], ['administrateur']);
+
+$r->addRoute('/wishlist', [WishlistController::class, 'index'], ['etudiant']);
+$r->addRoute('/wishlist/toggle', [WishlistController::class, 'toggle'], ['etudiant']);
 
 $r->run();
