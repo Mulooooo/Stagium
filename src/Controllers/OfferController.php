@@ -5,9 +5,14 @@ use App\Models\OfferModel;
 
 class OfferController extends Controller{
     public function index() {
+        $page = $_GET['page'] ?? 1;
+        $limit = 6;
         $offerModel = new OfferModel();
-        $offers = $offerModel->getActiveOffers();
-        $this->render("offers/index.html.twig", ['offers' => $offers]);
+        $offers = $offerModel->getActiveOffers($page, $limit);
+        $total = $offers['total'];
+        $items = $offers['items'];
+        $totalPages = ceil($total / $limit);
+        $this->render("offers/index.html.twig", ['offers' => $items, 'total_pages' => $totalPages, 'current_page' => $page]);
     }
 
     public function show() {

@@ -3,10 +3,17 @@
 namespace App\Models;
 
 class OfferModel extends Model{
-    public function getActiveOffers() {
-        $stmt = $this->db->prepare("SELECT OFFRE_STAGE.id, OFFRE_STAGE.titre, OFFRE_STAGE.gratification, OFFRE_STAGE.date_debut, OFFRE_STAGE.duree_semaines, ENTREPRISE.nom, SITE_ENTREPRISE.ville FROM OFFRE_STAGE JOIN SITE_ENTREPRISE ON OFFRE_STAGE.site_entreprise_id = SITE_ENTREPRISE.id JOIN ENTREPRISE ON SITE_ENTREPRISE.entreprise_id = ENTREPRISE.id WHERE OFFRE_STAGE.est_active = 1;");
+    public function getActiveOffers($page, $limit) {
+        $offset = ($page - 1) * $limit;
+        $stmt = $this->db->prepare("SELECT OFFRE_STAGE.id, OFFRE_STAGE.titre, OFFRE_STAGE.gratification, OFFRE_STAGE.date_debut, OFFRE_STAGE.duree_semaines, ENTREPRISE.nom, SITE_ENTREPRISE.ville FROM OFFRE_STAGE JOIN SITE_ENTREPRISE ON OFFRE_STAGE.site_entreprise_id = SITE_ENTREPRISE.id JOIN ENTREPRISE ON SITE_ENTREPRISE.entreprise_id = ENTREPRISE.id WHERE OFFRE_STAGE.est_active = 1 LIMIT :limit OFFSET :offset;");
+        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
+        $countStmt = $this->db->prepare("SELECT COUNT(*) FROM OFFRE_STAGE WHERE est_active = 1");
+        $countStmt->execute();
+        $total = $countStmt->fetchColumn();
+        return ['items' => $stmt->fetchAll(), 'total' => $total];
     }
 
     public function getOfferById(int $id) {
