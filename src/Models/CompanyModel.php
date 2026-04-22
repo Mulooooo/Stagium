@@ -2,10 +2,17 @@
 namespace App\Models;
 
 class CompanyModel extends Model{
-    public function getAll(){
-        $stmt = $this->db->prepare("SELECT * FROM ENTREPRISE WHERE est_active = 1;");
+    public function getAll($page, $limit){
+        $offset = ($page - 1) * $limit;
+        $stmt = $this->db->prepare("SELECT * FROM ENTREPRISE WHERE est_active = 1 LIMIT :limit OFFSET :offset;");
+        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        $countStmt = $this->db->prepare("SELECT COUNT(*) FROM ENTREPRISE WHERE est_active = 1");
+        $countStmt->execute();
+        $total = $countStmt->fetchColumn();
+        return ['items' => $stmt->fetchAll(), 'total' => $total];
     }
     public function findById($id){
         $stmt = $this->db->prepare("SELECT * FROM ENTREPRISE WHERE id = :id;");
