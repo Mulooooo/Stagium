@@ -52,4 +52,6 @@ $r->addRoute('/pilots/delete', [PilotController::class, 'delete'], ['administrat
 $r->addRoute('/wishlist', [WishlistController::class, 'index'], ['etudiant']);
 $r->addRoute('/wishlist/toggle', [WishlistController::class, 'toggle'], ['etudiant']);
 
+$r->addRoute('/pilot/applications', [ApplicationController::class, 'pilotApplications'], ['pilote']);
+
 $r->run();

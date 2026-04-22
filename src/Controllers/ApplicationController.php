@@ -25,4 +25,10 @@ class ApplicationController extends Controller{
             exit();
         }
     }
+    public function pilotApplications(){
+        $id = $_SESSION['user_id'];
+        $applicationModel = new ApplicationModel();
+        $applications = $applicationModel->getPilotStudentsApplications($id);
+        $this->render('pilot/applications.html.twig', ["applications" => $applications]);
+    }
 }
