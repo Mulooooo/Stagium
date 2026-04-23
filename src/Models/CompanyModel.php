@@ -17,7 +17,7 @@ class CompanyModel extends Model{
     public function findById($id){
         $stmt = $this->db->prepare("SELECT * FROM ENTREPRISE WHERE id = :id;");
         $stmt->execute([':id' => $id]);
-        return $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $stmt->fetch();
     }
     public function create($data){
         $stmt = $this->db->prepare("INSERT INTO ENTREPRISE (siren, nom, description, email, telephone) VALUES (:siren, :nom, :description, :email, :telephone);");
