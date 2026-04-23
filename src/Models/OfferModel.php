@@ -19,12 +19,12 @@ class OfferModel extends Model{
     public function getOfferById(int $id) {
         $stmt = $this->db->prepare("SELECT OFFRE_STAGE.id, OFFRE_STAGE.titre, OFFRE_STAGE.gratification, OFFRE_STAGE.date_debut, OFFRE_STAGE.duree_semaines, OFFRE_STAGE.description, ENTREPRISE.nom, SITE_ENTREPRISE.ville FROM OFFRE_STAGE JOIN SITE_ENTREPRISE ON OFFRE_STAGE.site_entreprise_id = SITE_ENTREPRISE.id JOIN ENTREPRISE ON SITE_ENTREPRISE.entreprise_id = ENTREPRISE.id WHERE OFFRE_STAGE.id = :id;");
         $stmt->execute([':id' => $id]);
-        return $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $stmt->fetch();
     }
     public function getSites() {
         $stmt = $this->db->prepare("SELECT SITE_ENTREPRISE.id, SITE_ENTREPRISE.nom_site, ENTREPRISE.nom FROM SITE_ENTREPRISE JOIN ENTREPRISE ON SITE_ENTREPRISE.entreprise_id = ENTREPRISE.id ORDER BY ENTREPRISE.nom;");
         $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $stmt->fetchAll();
     }
     public function create($data){
         $stmt = $this->db->prepare("INSERT INTO OFFRE_STAGE (titre, description, gratification, date_debut, duree_semaines, site_entreprise_id) VALUES (:titre, :description, :gratification, :date_debut, :duree_semaines, :site_entreprise_id);");
