@@ -4,9 +4,14 @@ use App\Models\StudentModel;
 
 class StudentController extends Controller {
     public function index(){
+        $page = $_GET['page'] ?? 1;
+        $limit = 6;
         $studentModel = new StudentModel();
-        $students = $studentModel->getAll();
-        $this->render("students/index.html.twig", ['students' => $students]); 
+        $students = $studentModel->getAll($page, $limit);
+        $total = $students['total'];
+        $items = $students['items'];
+        $totalPages = ceil($total / $limit);
+        $this->render("students/index.html.twig", ['students' => $items, 'total_pages' => $totalPages, 'current_page' => $page]);
     }
     public function show(){
         $id = $_GET['id'] ?? null;
