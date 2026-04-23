@@ -2,10 +2,17 @@
 namespace App\Models;
 
 class PilotModel extends Model{
-    public function getAll(){
-        $stmt = $this->db->prepare("SELECT * FROM UTILISATEUR WHERE role = 'pilote';");
+    public function getAll($page, $limit){
+        $offset = ($page - 1) * $limit;
+        $stmt = $this->db->prepare("SELECT * FROM UTILISATEUR WHERE role = 'pilote' LIMIT :limit OFFSET :offset;");
+        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        $countStmt = $this->db->prepare("SELECT COUNT(*) FROM UTILISATEUR WHERE role = 'pilote'");
+        $countStmt->execute();
+        $total = $countStmt->fetchColumn();
+        return ['items' => $stmt->fetchAll(), 'total' => $total];
     }
     public function findById($id){
         $stmt = $this->db->prepare("SELECT * FROM UTILISATEUR WHERE role = 'pilote' and id = :id");

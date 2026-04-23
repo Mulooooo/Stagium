@@ -11,4 +11,15 @@
         </div>
     {% endfor %}
     </div>
+    {% if total_pages > 1 %}
+    {% if current_page > 1 %}
+        <a href="/pilots?page={{ current_page - 1 }}">Précédent</a>
+    {% endif %}
+    
+    <span>Page {{ current_page }} / {{ total_pages }}</span>
+    
+    {% if current_page < total_pages %}
+        <a href="/pilots?page={{ current_page + 1 }}">Suivant</a>
+    {% endif %}
+    {% endif %}
 {% endblock %}

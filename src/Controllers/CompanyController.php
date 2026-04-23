@@ -4,9 +4,14 @@ use App\Models\CompanyModel;
 
 class CompanyController extends Controller{
     public function index(){
+        $page = $_GET['page'] ?? 1;
+        $limit = 6;
         $comanyModel = new CompanyModel();
-        $companies = $comanyModel->getAll();
-        $this->render("companies/index.html.twig", ['companies' => $companies]);
+        $companies = $comanyModel->getAll($page, $limit);
+        $total = $companies['total'];
+        $items = $companies['items'];
+        $totalPages = ceil($total / $limit);
+        $this->render("companies/index.html.twig", ['companies' => $items, 'total_pages' => $totalPages, 'current_page' => $page]);
     }
     public function show(){
         $id = $_GET['id'] ?? null;
