@@ -4,9 +4,14 @@ use App\Models\PilotModel;
 
 class PilotController extends Controller {
     public function index(){
+        $page = $_GET['page'] ?? 1;
+        $limit = 6;
         $pilotModel = new PilotModel();
-        $pilots = $pilotModel->getAll();
-        $this->render("pilots/index.html.twig", ['pilots' => $pilots]); 
+        $pilots = $pilotModel->getAll($page, $limit);
+        $total = $pilots['total'];
+        $items = $pilots['items'];
+        $totalPages = ceil($total / $limit);
+        $this->render("pilots/index.html.twig", ['pilots' => $items, 'total_pages' => $totalPages, 'current_page' => $page]);
     }
     public function show(){
         $id = $_GET['id'] ?? null;
