@@ -7,18 +7,22 @@
     <title>Stagium - {% block title %}{% endblock %}</title>
 </head>
 <body>
-    <header>
-        <nav>
+    <header class="header">
+        <a href="/" class="header__logo"><img src="http://assets.stagium.fr/img/logo.svg" alt="Logo Stagium"></a>
+
+        <nav class="header__nav">
             <ul>
                 <li><a href="/">Acceuil</a></li>
                 <li><a href="/offers">Offres de stage</a></li>
             </ul>
         </nav>
+        <div class="header__actions">
         {% if is_logged_in %}
             {{ user_name }} <a href="/logout">Déconnexion</a>
         {% else %}
             <a href="/login">Connexion</a>
         {% endif %}
+        </div>
     </header>
     {% block content %}{% endblock %}
 </body>
