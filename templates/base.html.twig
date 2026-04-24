@@ -10,8 +10,15 @@
 <body>
     <div id="navOverlay" class="nav-overlay"></div>
     <aside id="sidebar">
-        <img src="https://assets.stagium.fr/img/logo.svg" alt="Logo Stagium">
-        <button class="close-btn" id="sidebarClose">X</button>
+        <div class="sidebar__header">
+            <img src="https://assets.stagium.fr/img/logo.svg" alt="Logo Stagium">
+            <button class="close-btn" id="sidebarClose">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="3" y1="3" x2="17" y2="17"/>
+                    <line x1="17" y1="3" x2="3" y2="17"/>
+                </svg>
+            </button>
+        </div>
         <nav>
             <ul>
                 <li><a href="/">Acceuil</a></li>

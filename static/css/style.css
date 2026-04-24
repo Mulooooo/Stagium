@@ -156,6 +156,29 @@ a:hover {
     text-decoration: none;
 }
 
+.sidebar__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--clr-border);
+    margin-bottom: 1rem;
+}
+
+#sidebarClose {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.4rem;
+    color: var(--clr-text-muted);
+    border-radius: var(--radius);
+}
+
+#sidebarClose:hover {
+    background: var(--clr-surface-2);
+    color: var(--clr-text);
+}
+
 .pagination {
     display: flex;
     align-items: center;
