@@ -1,7 +1,17 @@
 {% extends 'base.html.twig' %}
-{% block title %}
-    Accueil
-{% endblock %}
+{% block title %}Accueil{% endblock %}
 {% block content %}
-    <p>twig template engine is working!</p>
+    <div class="hero">
+        <h1>Ton prochain stage commence ici</h1>
+        <p>Plein d'offres n'attendent que toi. <br>Lance-toi !</p>
+        <a href="/offers">Voir les offres</a>
+    </div>
+
+    <h2>Dernières offres</h2>
+    <div class="offers-grid">
+        {% for offer in latest_offers %}
+            {% include 'components/offer_card.html.twig' with { offer: offer } %}
+        {% endfor %}
+    </div>
+    <a href="/offers">Voir toutes les offres</a>
 {% endblock %}

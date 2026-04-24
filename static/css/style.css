@@ -1,6 +1,7 @@
 :root {
     --clr-primary: #7c3aed;
     --clr-primary-light: #ede9fe;
+    --clr-accent: #14b8a6;
     --clr-bg: #f8fafc;
     --clr-surface: #ffffff;
     --clr-text: #1e293b;
@@ -32,6 +33,12 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+.main {
+    padding: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .header {
@@ -213,9 +220,14 @@ a:hover {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
-    padding: 2rem;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+@media (max-width: 768px){
+    .offers-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .offer-card {
@@ -251,4 +263,36 @@ a:hover {
 .offer-card__salary {
     font-size: 0.875rem;
     color: var(--clr-text-muted);
+}
+
+.hero {
+    background: linear-gradient(135deg, var(--clr-primary) 0%, var(--clr-accent) 100%);
+    border-radius: var(--radius);
+    padding: 2rem 1.5rem;
+    color: white;
+}
+
+.hero h1 {
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.hero p {
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
+}
+
+.hero a {
+    background: white;
+    color: var(--clr-primary);
+    padding: 0.65rem 1.25rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    display: inline-block;
+}
+
+.hero a:hover {
+    text-decoration: none;
+    opacity: 0.9;
 }
