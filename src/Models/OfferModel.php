@@ -48,9 +48,16 @@ class OfferModel extends Model{
     }
 
     public function getOfferById(int $id) {
-        $stmt = $this->db->prepare("SELECT OFFRE_STAGE.id, OFFRE_STAGE.titre, OFFRE_STAGE.gratification, OFFRE_STAGE.date_debut, OFFRE_STAGE.duree_semaines, OFFRE_STAGE.description, ENTREPRISE.nom, SITE_ENTREPRISE.ville FROM OFFRE_STAGE JOIN SITE_ENTREPRISE ON OFFRE_STAGE.site_entreprise_id = SITE_ENTREPRISE.id JOIN ENTREPRISE ON SITE_ENTREPRISE.entreprise_id = ENTREPRISE.id WHERE OFFRE_STAGE.id = :id;");
+        $stmt = $this->db->prepare("SELECT OFFRE_STAGE.id AS id, OFFRE_STAGE.titre, OFFRE_STAGE.gratification, OFFRE_STAGE.date_debut, OFFRE_STAGE.duree_semaines, OFFRE_STAGE.description, ENTREPRISE.id AS entreprise_id, ENTREPRISE.nom, SITE_ENTREPRISE.ville ,ENTREPRISE.description AS company_description, SECTEUR_ACTIVITE.nom AS company_sector FROM OFFRE_STAGE JOIN SITE_ENTREPRISE ON OFFRE_STAGE.site_entreprise_id = SITE_ENTREPRISE.id JOIN ENTREPRISE ON SITE_ENTREPRISE.entreprise_id = ENTREPRISE.id LEFT JOIN SECTEUR_ACTIVITE ON ENTREPRISE.secteur_id = SECTEUR_ACTIVITE.id WHERE OFFRE_STAGE.id = :id;");
         $stmt->execute([':id' => $id]);
-        return $stmt->fetch();
+        $offer = $stmt->fetch();
+
+        if ($offer) {
+            $skillStmt = $this->db->prepare("SELECT COMPETENCE.libelle FROM COMPETENCE JOIN REQUIERT ON COMPETENCE.id = REQUIERT.competence_id WHERE REQUIERT.offre_id = :id");
+            $skillStmt->execute([':id' => $id]);
+            $offer['skills'] = $skillStmt->fetchAll();
+        }
+        return $offer;
     }
     public function getSites() {
         $stmt = $this->db->prepare("SELECT SITE_ENTREPRISE.id, SITE_ENTREPRISE.nom_site, ENTREPRISE.nom FROM SITE_ENTREPRISE JOIN ENTREPRISE ON SITE_ENTREPRISE.entreprise_id = ENTREPRISE.id ORDER BY ENTREPRISE.nom;");

@@ -1,32 +1,64 @@
 {% extends 'base.html.twig' %}
-{% block title %}
-    Offres de stage
-{% endblock %}
+{% block title %}{{ offer.titre }}{% endblock %}
 {% block content %}
+    <div class="page-header">
+        <h1>{{ offer.titre }}</h1>
+    </div>
     <div>
         <a href="/offers">Retour</a>
-        <div>
-        <p>{{ offer.titre }}</p>
-        <p>{{ offer.nom }}</p>
-        <p>{{ offer.ville }}</p>
-        <p>{{ offer.date_debut }}</p>
-        <p>{{ offer.duree_semaines }}</p>
-        <p>{{ offer.description }}</p>
-        <p>{{ offer.gratification }}</p>
-        <form method="post" action="/wishlist/toggle">
-            <input type="hidden" name="offre_id" value="{{ offer.id }}">
-            <button type="submit">Wishlist</button>
-        </form>
-        <form method="post" action="/offers/apply" enctype="multipart/form-data">
-            <input type="hidden" name="offre_id" value="{{ offer.id }}">
-            <label>CV : <input type="file" name="cv" required></label>
-            <label>Lettre de motivation : <input type="file" name="lm" required></label>
-            <button type="submit">Postuler</button>
-        </form>
-        <form method="post" action="/offers/delete">
-            <input type="hidden" name="id" value="{{ offer.id }}">
-            <button type="submit">Supprimer</button>
-        </form>
+
+        <div class="offer-detail">
+            <p class="offer-detail__company">{{ offer.nom }}</p>
+            <p class="offer-detail__location">{{ offer.ville }}</p>
+            <button class="btn btn-primary">Postuler</button>
+        </div>
+
+        <div class="content-card">
+            <p class="offer-detail__date">Début : {{ offer.date_debut }}</p>
+            <p class="offer-detail__duration">{{ offer.duree_semaines }} semaines</p>
+            <p class="offer-detail__salary">{{ offer.gratification }}€/mois</p>
+        </div>
+
+        <div class="content-card">
+            {% if user_role in ['etudiant'] %}
+            <form method="post" action="/wishlist/toggle">
+                <input type="hidden" name="offre_id" value="{{ offer.id }}">
+                <button type="submit">Wishlist</button>
+            </form>
+            <form method="post" action="/offers/apply" enctype="multipart/form-data">
+                <input type="hidden" name="offre_id" value="{{ offer.id }}">
+                <label>CV : <input type="file" name="cv" required></label>
+                <label>Lettre de motivation : <input type="file" name="lm" required></label>
+                <button type="submit">Postuler</button>
+            </form>
+            {% elseif user_role in ['administrateur', 'pilote'] %}
+            <form method="post" action="/offers/delete">
+                <input type="hidden" name="id" value="{{ offer.id }}">
+                <button type="submit">Supprimer</button>
+            </form>
+            {% else %}
+            <p>Connectes toi pour postuler ou mettre cette offre en favoris.</p>
+            {% endif %}
+        </div>
+
+        <div class="content-card">
+            <h2 class="content-card__title">Compétences requises</h2>
+            <div class="skills-grid-display">
+                {% for skill in offer.skills %}
+                <span class="skill-tag">{{ skill.libelle }}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2 class="content-card__title">Description du poste</h2>
+            {{ offer.description }}
+        </div>
+
+        <div class="content-card">
+           <h2 class="content-card__title">Entreprise</h2>
+           <a href='/companies/show?id={{ offer.entreprise_id }}'>Nom : {{ offer.nom }}</a>
+           <p>{{ offer.company_description }}</p>
         </div>
     </div>
 {% endblock %}
