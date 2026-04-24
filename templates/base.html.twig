@@ -2,14 +2,31 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="http://assets.stagium.fr/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <title>Stagium - {% block title %}{% endblock %}</title>
 </head>
 <body>
-    <header class="header">
-        <a href="/" class="header__logo"><img src="http://assets.stagium.fr/img/logo.svg" alt="Logo Stagium"></a>
+    <div id="navOverlay" class="nav-overlay"></div>
+    <aside id="sidebar">
+        <img src="https://assets.stagium.fr/img/logo.svg" alt="Logo Stagium">
+        <button class="close-btn" id="sidebarClose">X</button>
+        <nav>
+            <ul>
+                <li><a href="/">Acceuil</a></li>
+                <li><a href="/offers">Offres de stage</a></li>
+            </ul>
+        </nav>
+    </aside>
 
+    <header class="header">
+        <button class="header__burger" id="burgerBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <a href="/" class="header__logo"><img src="https://assets.stagium.fr/img/logo.svg" alt="Logo Stagium"></a>
         <nav class="header__nav">
             <ul>
                 <li><a href="/">Acceuil</a></li>
@@ -25,5 +42,6 @@
         </div>
     </header>
     {% block content %}{% endblock %}
+    <script src="https://assets.stagium.fr/js/app.js" defer></script>
 </body>
 </html>
