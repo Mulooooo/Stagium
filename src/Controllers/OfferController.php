@@ -7,18 +7,20 @@ class OfferController extends Controller{
     public function index() {
         $page = $_GET['page'] ?? 1;
         $limit = 6;
+        $filters["q"] = $_GET['q'] ?? '';
+        $filters["location"] = $_GET['location'] ?? '';
         $offerModel = new OfferModel();
-        $offers = $offerModel->getActiveOffers($page, $limit);
+        $offers = $offerModel->searchOffers($filters, $page, $limit);
         $total = $offers['total'];
         $items = $offers['items'];
         $totalPages = ceil($total / $limit);
-        $this->render("offers/index.html.twig", ['offers' => $items, 'total_pages' => $totalPages, 'current_page' => $page]);
+        $this->render("offers/index.html.twig", ['offers' => $items, 'total_pages' => $totalPages, 'current_page' => $page, 'filters' => $filters]);
     }
 
     public function show() {
         $id = $_GET['id'] ?? null;
         if (!$id) { 
-            header('Location: /offers'); 
+            header('Location: /offers');
             exit;
         }
         $offerModel = new OfferModel();

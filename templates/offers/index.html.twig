@@ -1,16 +1,23 @@
 {% extends 'base.html.twig' %}
 {% block title %}Offres de stage{% endblock %}
 {% block content %}
+    <div class="page-header">
+        <h1>Offres de stage</h1>
+    </div>
+
+    <div class="search-bar">
+        <form method="get" action="/offers">
+            <input class="search-bar__input" type="text" name="q" value="{{ filters.q }}" placeholder="Rechercher une offre...">
+            <div class="filter-row">
+                <input class="filter-select" type="text" name="location" value="{{ filters.location }}" placeholder="Ville...">
+                <button class="btn btn--primary" type="submit">Rechercher</button>
+            </div>
+        </form>
+    </div>
+    
     <div class="offers-grid">
     {% for offer in offers %}
-        <div class="offer-card">
-        <a href="/offers/show?id={{ offer.id }}" class="offer-card__title">{{ offer.titre }}</a>
-        <p class="offer-card__company">{{ offer.nom }}</p>
-        <p class="offer-card__location">{{ offer.ville }}</p>
-        <p class="offer-card__date">{{ offer.date_debut }}</p>
-        <p class="offer-card__duration">{{ offer.duree_semaines }}</p>
-        <p class="offer-card__salary">{{ offer.gratification }}</p>
-        </div>
+        {% include 'components/offer_card.html.twig' with { offer: offer } %}
     {% endfor %}
     </div>
 

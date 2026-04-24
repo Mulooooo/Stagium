@@ -16,6 +16,37 @@ class OfferModel extends Model{
         return ['items' => $stmt->fetchAll(), 'total' => $total];
     }
 
+    public function searchOffers(array $filters, $page, $limit) {
+        $sql = "SELECT OFFRE_STAGE.id, OFFRE_STAGE.titre, OFFRE_STAGE.gratification, OFFRE_STAGE.date_debut, OFFRE_STAGE.duree_semaines, ENTREPRISE.nom, SITE_ENTREPRISE.ville FROM OFFRE_STAGE JOIN SITE_ENTREPRISE ON OFFRE_STAGE.site_entreprise_id = SITE_ENTREPRISE.id JOIN ENTREPRISE ON SITE_ENTREPRISE.entreprise_id = ENTREPRISE.id WHERE OFFRE_STAGE.est_active = 1";
+        $params = [];
+
+        if (!empty($filters['q'])) {
+            $sql .= " AND (OFFRE_STAGE.titre LIKE :q OR ENTREPRISE.nom LIKE :q2)";
+            $params[':q'] = '%' . $filters['q'] . '%';
+            $params[':q2'] = '%' . $filters['q'] . '%';
+        }
+
+        if (!empty($filters['location'])) {
+            $sql .= " AND SITE_ENTREPRISE.ville LIKE :location";
+            $params[':location'] = '%' . $filters['location'] . '%';
+        }
+
+        $countStmt = $this->db->prepare("SELECT COUNT(*) FROM ($sql) AS sub");
+        $countStmt->execute($params);
+        $total = $countStmt->fetchColumn();
+
+        $sql .= " LIMIT :limit OFFSET :offset";
+        $stmt = $this->db->prepare($sql);
+        $offset = ($page - 1) * $limit;
+        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
+        foreach ($params as $key => $val) {
+            $stmt->bindValue($key, $val);
+        }
+        $stmt->execute();
+        return ['items' => $stmt->fetchAll(), 'total' => $total];
+    }
+
     public function getOfferById(int $id) {
         $stmt = $this->db->prepare("SELECT OFFRE_STAGE.id, OFFRE_STAGE.titre, OFFRE_STAGE.gratification, OFFRE_STAGE.date_debut, OFFRE_STAGE.duree_semaines, OFFRE_STAGE.description, ENTREPRISE.nom, SITE_ENTREPRISE.ville FROM OFFRE_STAGE JOIN SITE_ENTREPRISE ON OFFRE_STAGE.site_entreprise_id = SITE_ENTREPRISE.id JOIN ENTREPRISE ON SITE_ENTREPRISE.entreprise_id = ENTREPRISE.id WHERE OFFRE_STAGE.id = :id;");
         $stmt->execute([':id' => $id]);

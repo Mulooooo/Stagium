@@ -296,3 +296,57 @@ a:hover {
     text-decoration: none;
     opacity: 0.9;
 }
+
+.search-bar {
+    margin-bottom: 1.5rem;
+}
+
+.search-bar__input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius);
+    background: var(--clr-surface);
+    outline: none;
+}
+
+.search-bar__input:focus {
+    border-color: var(--clr-primary);
+}
+
+.filter-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius);
+    background: var(--clr-surface);
+    outline: none;
+}
+
+.filter-select:focus {
+    border-color: var(--clr-primary);
+}
+
+.filter-row{
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn {
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    font-size: 0.9rem;
+}
+
+.btn--primary {
+    background: var(--clr-primary);
+    color: white;
+}
+
+.btn--primary:hover {
+    opacity: 0.9;
+}
