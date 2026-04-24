@@ -68,3 +68,77 @@ a:hover {
     color: var(--clr-primary);
     text-decoration: none;
 }
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem;
+}
+
+.pagination__btn {
+    padding: 0.5rem 1rem;
+    background: var(--clr-surface);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius);
+    color: var(--clr-text);
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.pagination__btn:hover {
+    background: var(--clr-primary);
+    color: white;
+    border-color: var(--clr-primary);
+    text-decoration: none;
+}
+
+.pagination__info {
+    color: var(--clr-text-muted);
+    font-size: 0.875rem;
+}
+
+.offers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.offer-card {
+    background: var(--clr-surface);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.offer-card__title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--clr-text);
+}
+
+.offer-card__title:hover {
+    color: var(--clr-primary);
+    text-decoration: none;
+}
+
+.offer-card__company {
+    font-weight: 500;
+    color: var(--clr-primary);
+}
+
+.offer-card__location,
+.offer-card__date,
+.offer-card__duration,
+.offer-card__salary {
+    font-size: 0.875rem;
+    color: var(--clr-text-muted);
+}
