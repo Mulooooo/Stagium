@@ -402,6 +402,25 @@ a:hover {
     border-color: var(--clr-danger);
 }
 
+.alert {
+    padding: 0.875rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+}
+
+.alert--error {
+    background: #fee2e2;
+    border-left: 3px solid var(--clr-danger);
+    color: var(--clr-danger);
+}
+
+.alert--success {
+    background: #dcfce7;
+    border-left: 3px solid #16a34a;
+    color: #16a34a;
+}
+
 .offer-detail {
     background: var(--clr-surface);
     border: 1px solid var(--clr-border);
@@ -637,3 +656,4 @@ input[type="file"] {
     text-transform: uppercase;
     margin-bottom: 0.5rem;
 }
+

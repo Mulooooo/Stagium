@@ -1,10 +1,17 @@
 {% extends 'base.html.twig' %}
-{% block title %}
-    Pilotes
-{% endblock %}
+{% block title %}{{ pilot.prenom }} {{ pilot.nom }}{% endblock %}
 {% block content %}
-    <div>
-        <p>{{ pilot.prenom }} {{ pilot.nom }}</p>
-        <p>{{ pilot.email }}</p>
+<div class="page-header">
+    <h1>{{ pilot.prenom }} {{ pilot.nom }}</h1>
+    <div class="offer-detail__actions">
+        <a href="/pilots/edit?id={{ pilot.id }}" class="btn btn--primary">Modifier</a>
+        <form method="post" action="/pilots/delete">
+            <input type="hidden" name="id" value="{{ pilot.id }}">
+            <button type="submit" class="btn btn--danger">Supprimer</button>
+        </form>
     </div>
+</div>
+<div class="offer-detail">
+    <p class="offer-detail__company">{{ pilot.email }}</p>
+</div>
 {% endblock %}

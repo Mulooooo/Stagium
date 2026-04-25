@@ -1,10 +1,17 @@
 {% extends 'base.html.twig' %}
-{% block title %}
-    Etudiants
-{% endblock %}
+{% block title %}{{ student.prenom }} {{ student.nom }}{% endblock %}
 {% block content %}
-    <div>
-        <p>{{ student.prenom }} {{ student.nom }}</p>
-        <p>{{ student.email }}</p>
+<div class="page-header">
+    <h1>{{ student.prenom }} {{ student.nom }}</h1>
+    <div class="offer-detail__actions">
+        <a href="/students/edit?id={{ student.id }}" class="btn btn--primary">Modifier</a>
+        <form method="post" action="/students/delete">
+            <input type="hidden" name="id" value="{{ student.id }}">
+            <button type="submit" class="btn btn--danger">Supprimer</button>
+        </form>
     </div>
+</div>
+<div class="offer-detail">
+    <p class="offer-detail__company">{{ student.email }}</p>
+</div>
 {% endblock %}
