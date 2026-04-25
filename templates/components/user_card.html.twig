@@ -1,0 +1,7 @@
+<div class="company-card">
+    <div class="company-card__initials">{{ user.prenom|slice(0,1)|upper }}{{ user.nom|slice(0,1)|upper }}</div>
+    <div class="company-card__body">
+        <a href="{{ url }}" class="company-card__name">{{ user.prenom }} {{ user.nom }}</a>
+        <p class="company-card__desc">{{ user.email }}</p>
+    </div>
+</div>

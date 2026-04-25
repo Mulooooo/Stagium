@@ -1,25 +1,32 @@
 {% extends 'base.html.twig' %}
-{% block title %}
-    Pilotes
-{% endblock %}
+{% block title %}Pilotes{% endblock %}
 {% block content %}
-    <div>
-    {% for pilot in pilots %}
-        <div>
-            <a href="/pilots/show?id={{ pilot.id }}">{{ pilot.prenom }} {{ pilot.nom }}</a>
-            <p>{{ pilot.email }}</p>
+<div class="page-header">
+    <h1>Pilotes</h1>
+    {% if user_role == 'administrateur' %}
+    <a href="/pilots/create" class="btn btn--primary">+ Créer un pilote</a>
+    {% endif %}
+</div>
+<div class="search-bar">
+    <form method="get" action="/pilots">
+        <input class="search-bar__input" type="text" name="q" value="{{ filters.q ?? '' }}" placeholder="Rechercher un pilote...">
+        <div class="filter-row">
+            <button class="btn btn--primary" type="submit">Rechercher</button>
         </div>
+    </form>
+</div>
+<div>
+    {% for pilot in pilots %}
+    {% include 'components/user_card.html.twig' with { user: pilot, url: '/pilots/show?id=' ~ pilot.id } %}
     {% endfor %}
-    </div>
-    {% if total_pages > 1 %}
+</div>
+<div class="pagination">
     {% if current_page > 1 %}
-        <a href="/pilots?page={{ current_page - 1 }}">Précédent</a>
+    <a href="/pilots?page={{ current_page - 1 }}" class="pagination__btn">Précédent</a>
     {% endif %}
-    
-    <span>Page {{ current_page }} / {{ total_pages }}</span>
-    
+    <span class="pagination__info">Page {{ current_page }} / {{ total_pages }}</span>
     {% if current_page < total_pages %}
-        <a href="/pilots?page={{ current_page + 1 }}">Suivant</a>
+    <a href="/pilots?page={{ current_page + 1 }}" class="pagination__btn">Suivant</a>
     {% endif %}
-    {% endif %}
+</div>
 {% endblock %}

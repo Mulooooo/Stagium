@@ -24,6 +24,15 @@
                 <li><a href="/">Acceuil</a></li>
                 <li><a href="/offers">Offres de stage</a></li>
                 <li><a href="/companies">Entreprises</a></li>
+                {% if user_role in ['pilote', 'administrateur'] %}
+                <li><a href="/students">Étudiants</a></li>                {% endif %}
+                {% if user_role == 'administrateur' %}
+                <li><a href="/pilots">Pilotes</a></li>
+                {% endif %}
+                {% if user_role == 'etudiant' %}
+                <li><a href="/wishlist">Favoris</a></li>
+                <li><a href="/student/applications">Mes candidatures</a></li>
+                {% endif %}
             </ul>
         </nav>
     </aside>
@@ -40,6 +49,16 @@
                 <li><a href="/">Acceuil</a></li>
                 <li><a href="/offers">Offres de stage</a></li>
                 <li><a href="/companies">Entreprises</a></li>
+                {% if user_role in ['pilote', 'administrateur'] %}
+                <li><a href="/students">Étudiants</a></li>
+                {% endif %}
+                {% if user_role == 'administrateur' %}
+                <li><a href="/pilots">Pilotes</a></li>
+                {% endif %}
+                {% if user_role == 'etudiant' %}
+                <li><a href="/wishlist">Favoris</a></li>
+                <li><a href="/student/applications">Mes candidatures</a></li>
+                {% endif %}
             </ul>
         </nav>
         <div class="header__actions">
