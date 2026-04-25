@@ -33,6 +33,14 @@
                 <li><a href="/wishlist">Favoris</a></li>
                 <li><a href="/student/applications">Mes candidatures</a></li>
                 {% endif %}
+                {% if user_role == 'pilote' %}
+                <li><a href="/pilot/applications">Suivi candidatures</a></li>
+                {% endif %}
+
+
+                {% if is_logged_in %}
+                <li><a href="/logout">Déconnexion</a></li>
+                {% endif %}
             </ul>
         </nav>
     </aside>
@@ -59,6 +67,14 @@
                 <li><a href="/wishlist">Favoris</a></li>
                 <li><a href="/student/applications">Mes candidatures</a></li>
                 {% endif %}
+                {% if user_role == 'pilote' %}
+                <li><a href="/pilot/applications">Suivi candidatures</a></li>
+                {% endif %}
+
+
+                {% if is_logged_in %}
+                <li><a href="/logout">Déconnexion</a></li>
+                {% endif %}
             </ul>
         </nav>
         <div class="header__actions">
@@ -77,6 +93,5 @@
     <footer class="site-footer">
         <a href="/mentions-legales">Mentions légales</a>
     </footer>
-</footer>
 </body>
 </html>
