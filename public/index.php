@@ -10,6 +10,7 @@ use App\Controllers\ApplicationController;
 use App\Controllers\StudentController;
 use App\Controllers\PilotController;
 use App\Controllers\WishlistController;
+use App\Controllers\LegalController;
 
 session_start();
 
@@ -53,5 +54,7 @@ $r->addRoute('/wishlist', [WishlistController::class, 'index'], ['etudiant']);
 $r->addRoute('/wishlist/toggle', [WishlistController::class, 'toggle'], ['etudiant']);
 
 $r->addRoute('/pilot/applications', [ApplicationController::class, 'pilotApplications'], ['pilote']);
+
+$r->addRoute('/mentions-legales', [LegalController::class, 'index']);
 
 $r->run();
