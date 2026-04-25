@@ -1,16 +1,17 @@
 {% extends 'base.html.twig' %}
-{% block title %}
-    Postulation des etudiants
-{% endblock %}
+{% block title %}Candidatures étudiants{% endblock %}
 {% block content %}
-    <div>
-    {% for application in applications %}
-        <div>
-        <a href="/offers/show?id={{ application.offre_id }}">{{ application.titre }}</a>
-        <a href="/students/show?id={{ application.etudiant_id }}">{{ application.etudiant_prenom }} {{ application.etudiant_nom }}</a>
-        <p>{{ application.entreprise_nom }}</p>
-        <p>{{ application.ville }}</p>
-        </div>
-    {% endfor %}
-    </div>
+<div class="page-header">
+    <h1>Candidatures de mes étudiants</h1>
+</div>
+{% for application in applications %}
+<div class="content-card">
+    <a href="/offers/show?id={{ application.offre_id }}" class="content-card__title">{{ application.titre }}</a>
+    <p class="offer-detail__company">{{ application.entreprise_nom }}</p>
+    <p class="offer-detail__location">{{ application.ville }}</p>
+    <a href="/students/show?id={{ application.etudiant_id }}" class="offer-detail__location">
+        {{ application.etudiant_prenom }} {{ application.etudiant_nom }}
+    </a>
+</div>
+{% endfor %}
 {% endblock %}
