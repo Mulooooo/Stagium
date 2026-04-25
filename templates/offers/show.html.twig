@@ -1,13 +1,12 @@
 {% extends 'base.html.twig' %}
 {% block title %}{{ offer.titre }}{% endblock %}
 {% block content %}
-    <a href="/offers">Retour</a>
-
     <div class="page-header">
         <h1>{{ offer.titre }}</h1>
+        <a href="/offers" class="btn btn--primary">Retour</a>
     </div>
-    <div>
 
+    <div>
         <div class="offer-detail">
             <p class="offer-detail__company">{{ offer.nom }}</p>
             <p class="offer-detail__location">{{ offer.ville }}</p>

@@ -1,29 +1,33 @@
 {% extends 'base.html.twig' %}
-{% block title %}
-    Creer une entreprise
-{% endblock %}
+{% block title %}Créer une entreprise{% endblock %}
 {% block content %}
-    <form method="post">
-        <label for="nom">nom de l'entreprise:</label>
-        <input type="text" id="nom" name="nom" 
-            placeholder="nom" required>
-
-        <label for="email">email:</label>
-        <input type="email" id="email" name="email" 
-            placeholder="a@a.a" required>
-
-        <label for="telephone">telephone:</label>
-        <input type="tel" pattern="\d{10}" id="telephone" name="telephone" 
-            placeholder="0123456789" required>
-
-        <label for="siren">siren:</label>
-        <input type="text" pattern="\d{9}" id="siren" name="siren" 
-            placeholder="siren" required>
-
-        <label for="description">description:</label>
-        <textarea id="description" name="description" 
-            placeholder="Une entreprise specialisée dans ..." required></textarea>
-
-        <button type="submit"> creer </button>
+<div class="page-header">
+    <h1>Créer une entreprise</h1>
+    <a href="/companies" class="btn btn--primary">Retour</a>
+</div>
+<div class="content-card">
+    <form method="post" class="auth-form">
+        <div class="form-field">
+            <label class="form-field__label" for="nom">Nom de l'entreprise</label>
+            <input class="form-field__input" type="text" id="nom" name="nom" placeholder="Nom" required>
+        </div>
+        <div class="form-field">
+            <label class="form-field__label" for="email">Email</label>
+            <input class="form-field__input" type="email" id="email" name="email" placeholder="contact@entreprise.fr" required>
+        </div>
+        <div class="form-field">
+            <label class="form-field__label" for="telephone">Téléphone</label>
+            <input class="form-field__input" type="tel" pattern="\d{10}" id="telephone" name="telephone" placeholder="0123456789" required>
+        </div>
+        <div class="form-field">
+            <label class="form-field__label" for="siren">SIREN</label>
+            <input class="form-field__input" type="text" pattern="\d{9}" id="siren" name="siren" placeholder="123456789" required>
+        </div>
+        <div class="form-field">
+            <label class="form-field__label" for="description">Description</label>
+            <textarea class="form-field__input" id="description" name="description" placeholder="Une entreprise spécialisée dans..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn--primary">Créer</button>
     </form>
+</div>
 {% endblock %}

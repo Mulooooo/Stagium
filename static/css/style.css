@@ -579,3 +579,21 @@ input[type="file"] {
     font-size: 0.85rem;
     color: var(--clr-text-muted);
 }
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.offer-detail__actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.offer-detail__actions form {
+    margin: 0;
+}

@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 {% block title %}{{ company.nom }}{% endblock %}
 {% block content %}
-<a href="/companies">Retour</a>
 <div class="page-header">
     <h1>{{ company.nom }}</h1>
+    <a href="/page-header" class="btn btn--primary">Retour</a>
 </div>
 
 <div class="offer-detail">
