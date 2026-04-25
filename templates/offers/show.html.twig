@@ -19,8 +19,10 @@
             <p class="offer-detail__salary">{{ offer.gratification }}€/mois</p>
         </div>
 
+        <p>role : {{ user_role }}</p>
+
         <div class="content-card">
-            {% if user_role in ['etudiant'] %}
+            {% if user_role == 'etudiant' %}
             <form method="post" action="/wishlist/toggle">
                 <input type="hidden" name="offre_id" value="{{ offer.id }}">
                 <button type="submit">Wishlist</button>

@@ -41,11 +41,11 @@
             </ul>
         </nav>
         <div class="header__actions">
-        {% if is_logged_in %}
-            {{ user_name }} <a href="/logout">Déconnexion</a>
-        {% else %}
-            <a href="/login">Connexion</a>
-        {% endif %}
+            {% if is_logged_in %}
+                <div class="avatar">{{ user_initials }}</div>
+            {% else %}
+                <a href="/login" class="btn btn--primary">Connexion</a>
+            {% endif %}
         </div>
     </header>
     <div class="main">

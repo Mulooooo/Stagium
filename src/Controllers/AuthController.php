@@ -12,7 +12,8 @@ class AuthController extends Controller{
             $user = $userModel->findByEmail($email);
             if ($user != null && password_verify($mot_de_passe, $user['mot_de_passe'])) {
                 $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_name'] = $user['prenom'] . ' ' . $user['nom'];
+                $_SESSION['user_nom'] = $user['nom'];
+                $_SESSION['user_prenom'] = $user['prenom'];
                 $_SESSION['user_role'] = $user['role'];
                 header('Location: /');
                 exit;

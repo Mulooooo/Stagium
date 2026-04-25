@@ -99,6 +99,26 @@ a:hover {
     border-radius: 2px;
 }
 
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--clr-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.header__logout {
+    font-size: 0.85rem;
+    color: var(--clr-text-muted);
+    font-weight: 500;
+}
+
 @media (min-width: 768px) {
     .header__burger { display: none; }
     .header__nav { display: flex; }
