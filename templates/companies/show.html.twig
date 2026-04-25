@@ -22,6 +22,39 @@
     {% endif %}
 </div>
 
+{% if user_role in ['pilote', 'administrateur'] %}
+<div class="content-card">
+    <h2 class="content-card__title">Évaluer cette entreprise</h2>
+    <form method="post" action="/companies/evaluate" class="auth-form">
+        <input type="hidden" name="entreprise_id" value="{{ company.id }}">
+        <div class="form-field">
+            <label class="form-field__label" for="note">Note (1 à 5)</label>
+            <input class="form-field__input" type="number" id="note" name="note" min="1" max="5" required>
+        </div>
+        <div class="form-field">
+            <label class="form-field__label" for="commentaire">Commentaire</label>
+            <textarea class="form-field__input" id="commentaire" name="commentaire"></textarea>
+        </div>
+        <button type="submit" class="btn btn--primary">Envoyer</button>
+    </form>
+</div>
+{% endif %}
+
+<div class="content-card">
+    <h2 class="content-card__title">Évaluations</h2>
+    {% if evaluations %}
+        {% for eval in evaluations %}
+        <div class="content-card" style="margin-bottom: 0.75rem;">
+            <p><strong>Note : {{ eval.note }}/5</strong></p>
+            <p>{{ eval.commentaire }}</p>
+            <p class="offer-detail__date">{{ eval.date_evaluation }}</p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Aucune évaluation pour cette entreprise.</p>
+    {% endif %}
+</div>
+
 <div class="content-card">
     <h2 class="content-card__title">Offres de stage</h2>
     {% if offers is defined and offers %}

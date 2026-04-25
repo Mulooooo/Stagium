@@ -1,6 +1,8 @@
 <?php
 namespace App\Controllers;
 use App\Models\CompanyModel;
+use App\Models\OfferModel;
+use App\Models\EvaluationModel;
 
 class CompanyController extends Controller{
     public function index(){
@@ -23,10 +25,14 @@ class CompanyController extends Controller{
         $comanyModel = new CompanyModel();
         $company = $comanyModel->findById($id);
 
-        $offerModel = new \App\Models\OfferModel();
+        $offerModel = new OfferModel();
         $offers = $offerModel->getOffersByCompany($id);
-        $this->render("companies/show.html.twig", ['company' => $company, 'offers' => $offers]);
+
+        $evaluationModel = new EvaluationModel();
+        $evaluations = $evaluationModel->getByEntreprise($id);
+        $this->render("companies/show.html.twig", ['company' => $company, 'offers' => $offers, 'evaluations' => $evaluations]);
     }
+
     public function create(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = $_POST;

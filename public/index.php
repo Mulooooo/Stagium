@@ -11,6 +11,7 @@ use App\Controllers\StudentController;
 use App\Controllers\PilotController;
 use App\Controllers\WishlistController;
 use App\Controllers\LegalController;
+use App\Controllers\EvaluationController;
 
 session_start();
 
@@ -35,6 +36,7 @@ $r->addRoute('/companies/show', [CompanyController::class, 'show']);
 $r->addRoute('/companies/create', [CompanyController::class, 'create'], ['pilote', 'administrateur']);
 $r->addRoute('/companies/delete', [CompanyController::class, 'delete'], ['pilote', 'administrateur']);
 $r->addRoute('/companies/edit', [CompanyController::class, 'edit'], ['pilote', 'administrateur']);
+$r->addRoute('/companies/evaluate', [EvaluationController::class, 'evaluate'], ['pilote', 'administrateur']);
 
 $r->addRoute('/student/applications', [ApplicationController::class, 'myApplications'], ['etudiant']);
 
