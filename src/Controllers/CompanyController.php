@@ -22,7 +22,10 @@ class CompanyController extends Controller{
         }
         $comanyModel = new CompanyModel();
         $company = $comanyModel->findById($id);
-        $this->render("companies/show.html.twig", ['company' => $company]);
+
+        $offerModel = new \App\Models\OfferModel();
+        $offers = $offerModel->getOffersByCompany($id);
+        $this->render("companies/show.html.twig", ['company' => $company, 'offers' => $offers]);
     }
     public function create(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

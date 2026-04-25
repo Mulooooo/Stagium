@@ -1,18 +1,35 @@
 {% extends 'base.html.twig' %}
-{% block title %}
-    Entreprises
-{% endblock %}
+{% block title %}{{ company.nom }}{% endblock %}
 {% block content %}
-    <div>
-    <p>{{ company.nom }}</p>
-    <p>{{ company.description }}</p>
-    <p>{{ company.email }}</p>
-    <p>{{ company.telephone }}</p>
-    <p>{{ company.date_creation }}</p>
-    <p>{{ company.siren }}</p>
-    <form method="post" action="/companies/delete">
-        <input type="hidden" name="id" value="{{ company.id }}">
-        <button type="submit">Supprimer</button>
-    </form>
+<a href="/companies">Retour</a>
+<div class="page-header">
+    <h1>{{ company.nom }}</h1>
+</div>
+
+<div class="offer-detail">
+    <p class="offer-detail__company">{{ company.description }}</p>
+    <p class="offer-detail__location">email : {{ company.email }}</p>
+    <p class="offer-detail__date">telephone : {{ company.telephone }}</p>
+    <p class="offer-detail__duration">SIREN : {{ company.siren }}</p>
+    {% if user_role in ['pilote', 'administrateur'] %}
+    <div class="offer-detail__actions">
+        <a href="/companies/edit?id={{ company.id }}" class="btn btn--primary">Modifier</a>
+        <form method="post" action="/companies/delete">
+            <input type="hidden" name="id" value="{{ company.id }}">
+            <button type="submit" class="btn btn--danger">Supprimer</button>
+        </form>
     </div>
+    {% endif %}
+</div>
+
+<div class="content-card">
+    <h2 class="content-card__title">Offres de stage</h2>
+    {% if offers is defined and offers %}
+        {% for offer in offers %}
+            {% include 'components/offer_card.html.twig' with { offer: offer } %}
+        {% endfor %}
+    {% else %}
+        <p>Aucune offre disponible pour cette entreprise.</p>
+    {% endif %}
+</div>
 {% endblock %}
