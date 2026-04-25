@@ -412,3 +412,58 @@ a:hover {
     font-size: 0.8rem;
     font-weight: 500;
 }
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+}
+
+.form-field__label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--clr-text-muted);
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.file-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius);
+    background: var(--clr-surface);
+    color: var(--clr-text);
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.file-label:hover {
+    border-color: var(--clr-primary);
+    color: var(--clr-primary);
+}
+
+.btn-wishlist {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.25rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--clr-border);
+    background: var(--clr-surface);
+    color: var(--clr-text-muted);
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+.btn-wishlist.is-saved {
+    color: #e11d48;
+    border-color: #e11d48;
+}

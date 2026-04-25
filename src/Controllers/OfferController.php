@@ -25,11 +25,21 @@ class OfferController extends Controller{
         }
         $offerModel = new OfferModel();
         $offer = $offerModel->getOfferById($id);
+        $isSaved = false;
+        if (isset($_SESSION['user_id'])) {
+            $wishlistModel = new \App\Models\WishlistModel();
+            $isSaved = $wishlistModel->isSaved($_SESSION['user_id'], $id);
+        }
+        $alreadyApplied = false;
+        if (isset($_SESSION['user_id']) && $_SESSION['user_role'] === 'etudiant') {
+            $applicationModel = new \App\Models\ApplicationModel();
+            $alreadyApplied = $applicationModel->hasAlreadyApplied($_SESSION['user_id'], $id);
+        }
         if (!$offer) {
             http_response_code(404);
             return;
         } else {
-            $this->render("offers/show.html.twig", ['offer' => $offer]);
+            $this->render("offers/show.html.twig", ['offer' => $offer, 'is_saved' => $isSaved, 'already_applied' => $alreadyApplied]);
         }
     }
     public function create(){
