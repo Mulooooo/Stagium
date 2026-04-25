@@ -537,3 +537,45 @@ input[type="file"] {
 .btn--full {
     width: 100%;
 }
+
+.company-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--clr-surface);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 0.75rem;
+}
+
+.company-card__initials {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--clr-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.company-card__name {
+    font-weight: 600;
+    color: var(--clr-text);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.company-card__name:hover {
+    color: var(--clr-primary);
+}
+
+.company-card__desc {
+    font-size: 0.85rem;
+    color: var(--clr-text-muted);
+}

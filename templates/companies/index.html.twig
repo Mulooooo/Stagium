@@ -1,24 +1,29 @@
 {% extends 'base.html.twig' %}
-{% block title %}
-    Entreprises
-{% endblock %}
+{% block title %}Entreprises{% endblock %}
 {% block content %}
-    <div>
-    {% for company in companies %}
-        <div>
-        <a href="/companies/show?id={{ company.id }}">{{ company.nom }}</a>
+<div class="page-header">
+    <h1>Entreprises</h1>
+</div>
+<div class="search-bar">
+    <form method="get" action="/companies">
+        <input class="search-bar__input" type="text" name="q" value="{{ filters.q ?? '' }}" placeholder="Rechercher une entreprise...">
+        <div class="filter-row">
+            <button class="btn btn--primary" type="submit">Rechercher</button>
         </div>
+    </form>
+</div>
+<div>
+    {% for company in companies %}
+        {% include 'components/company_card.html.twig' with { company: company } %}
     {% endfor %}
-    </div>
-    {% if total_pages > 1 %}
+</div>
+<div class="pagination">
     {% if current_page > 1 %}
-        <a href="/companies?page={{ current_page - 1 }}">Précédent</a>
+        <a href="/companies?page={{ current_page - 1 }}" class="pagination__btn">Précédent</a>
     {% endif %}
-    
-    <span>Page {{ current_page }} / {{ total_pages }}</span>
-    
+    <span class="pagination__info">Page {{ current_page }} / {{ total_pages }}</span>
     {% if current_page < total_pages %}
-        <a href="/companies?page={{ current_page + 1 }}">Suivant</a>
+        <a href="/companies?page={{ current_page + 1 }}" class="pagination__btn">Suivant</a>
     {% endif %}
-    {% endif %}
+</div>
 {% endblock %}

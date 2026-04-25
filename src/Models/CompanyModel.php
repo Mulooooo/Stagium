@@ -14,6 +14,32 @@ class CompanyModel extends Model{
         $total = $countStmt->fetchColumn();
         return ['items' => $stmt->fetchAll(), 'total' => $total];
     }
+
+    public function searchCompanies(array $filters, $page, $limit) {
+        $sql = "SELECT * FROM ENTREPRISE WHERE est_active = 1";
+        $params = [];
+
+        if (!empty($filters['q'])) {
+            $sql .= " AND nom LIKE :q";
+            $params[':q'] = '%' . $filters['q'] . '%';
+        }
+
+        $countStmt = $this->db->prepare("SELECT COUNT(*) FROM ($sql) AS sub");
+        $countStmt->execute($params);
+        $total = $countStmt->fetchColumn();
+
+        $offset = ($page - 1) * $limit;
+        $sql .= " LIMIT :limit OFFSET :offset";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
+        foreach ($params as $key => $val) {
+            $stmt->bindValue($key, $val);
+        }
+        $stmt->execute();
+        return ['items' => $stmt->fetchAll(), 'total' => $total];
+    }
+
     public function findById($id){
         $stmt = $this->db->prepare("SELECT * FROM ENTREPRISE WHERE id = :id;");
         $stmt->execute([':id' => $id]);

@@ -7,11 +7,12 @@ class CompanyController extends Controller{
         $page = $_GET['page'] ?? 1;
         $limit = 6;
         $comanyModel = new CompanyModel();
-        $companies = $comanyModel->getAll($page, $limit);
+        $filters["q"] = $_GET['q'] ?? '';
+        $companies = $comanyModel->searchCompanies($filters, $page, $limit);
         $total = $companies['total'];
         $items = $companies['items'];
         $totalPages = ceil($total / $limit);
-        $this->render("companies/index.html.twig", ['companies' => $items, 'total_pages' => $totalPages, 'current_page' => $page]);
+        $this->render("companies/index.html.twig", ['companies' => $items, 'total_pages' => $totalPages, 'current_page' => $page, 'filters' => $filters]);
     }
     public function show(){
         $id = $_GET['id'] ?? null;
