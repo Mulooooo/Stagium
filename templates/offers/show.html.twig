@@ -25,6 +25,8 @@
                         {{ is_saved ? 'Retirer des favoris' : 'Ajouter aux favoris' }}
                     </button>
                 </form>
+                {% elseif user_role in ['pilote', 'administrateur'] %}
+                <a href="/offers/edit?id={{ offer.id }}" class="btn btn--primary">Modifier</a>
                 {% endif %}
             </div>
         </div>

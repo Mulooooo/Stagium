@@ -3,6 +3,9 @@
 {% block content %}
     <div class="page-header">
         <h1>Offres de stage</h1>
+        {% if user_role in ['pilote', 'administrateur'] %}
+        <a href="/offers/create" class="btn btn--primary">+ Créer une offre</a>
+        {% endif %}
     </div>
 
     <div class="search-bar">
