@@ -7,6 +7,8 @@
     --clr-text: #1e293b;
     --clr-text-muted: #64748b;
     --clr-border: #e2e8f0;
+    --clr-danger: #dc2626;
+    --clr-danger-light: #fee2e2;
     --font-body: 'Inter', sans-serif;
     --radius: 8px;
     --shadow: 0 1px 3px rgba(0,0,0,0.1);
@@ -371,6 +373,35 @@ a:hover {
     opacity: 0.9;
 }
 
+.btn--danger {
+    background: var(--clr-surface);
+    color: var(--clr-danger);
+    border: 1px solid var(--clr-danger);
+}
+
+.btn--danger:hover {
+    background: var(--clr-danger-light);
+}
+
+.btn-wishlist {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.25rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--clr-border);
+    background: var(--clr-surface);
+    color: var(--clr-text-muted);
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+.btn-wishlist.is-saved {
+    color: var(--clr-danger);
+    border-color: var(--clr-danger);
+}
+
 .offer-detail {
     background: var(--clr-surface);
     border: 1px solid var(--clr-border);
@@ -447,23 +478,4 @@ input[type="file"] {
 .file-label:hover {
     border-color: var(--clr-primary);
     color: var(--clr-primary);
-}
-
-.btn-wishlist {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.65rem 1.25rem;
-    border-radius: var(--radius);
-    border: 1px solid var(--clr-border);
-    background: var(--clr-surface);
-    color: var(--clr-text-muted);
-    font-weight: 500;
-    cursor: pointer;
-    margin-bottom: 1rem;
-}
-
-.btn-wishlist.is-saved {
-    color: #e11d48;
-    border-color: #e11d48;
 }
