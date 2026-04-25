@@ -606,3 +606,34 @@ input[type="file"] {
     margin-top: 2rem;
     color: var(--clr-text-muted);
 }
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background: var(--clr-surface);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+}
+
+.stat-card__value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--clr-primary);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
+
+.stat-card__label {
+    font-size: 0.8rem;
+    color: var(--clr-text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}

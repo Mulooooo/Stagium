@@ -6,6 +6,7 @@ class HomeController extends Controller{
     public function index(){
         $offerModel = new OfferModel();
         $offers = $offerModel->getActiveOffers(1, 3);
-        $this->render("home.html.twig", ['latest_offers' => $offers['items']]);
+        $stats = $offerModel->getStats();
+        $this->render("home.html.twig", ['latest_offers' => $offers['items'], 'stats' => $stats]);
     }
 }

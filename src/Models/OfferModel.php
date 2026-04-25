@@ -92,4 +92,33 @@ class OfferModel extends Model{
         $stmt = $this->db->prepare("DELETE FROM OFFRE_STAGE WHERE id = :id;");
         return $stmt->execute([':id' => $id]);
     }
+
+    public function getStats(): array {
+        $total = $this->db->query("SELECT COUNT(*) FROM OFFRE_STAGE WHERE est_active = 1")->fetchColumn();
+
+        $avgCandidatures = $this->db->query("SELECT AVG(nb) FROM (SELECT COUNT(*) as nb FROM CANDIDATURE GROUP BY offre_id) AS sub")->fetchColumn();
+
+        $topWishlist = $this->db->query("
+            SELECT OFFRE_STAGE.titre, COUNT(*) as nb_favoris
+            FROM FAVORI
+            JOIN OFFRE_STAGE ON FAVORI.offre_id = OFFRE_STAGE.id
+            GROUP BY OFFRE_STAGE.id
+            ORDER BY nb_favoris DESC, OFFRE_STAGE.id ASC
+            LIMIT 3
+        ")->fetchAll();
+
+        $repartitionDuree = $this->db->query("
+            SELECT duree_semaines, COUNT(*) as nb
+            FROM OFFRE_STAGE WHERE est_active = 1
+            GROUP BY duree_semaines
+            ORDER BY duree_semaines ASC
+        ")->fetchAll();
+
+        return [
+            'total' => $total,
+            'avg_candidatures' => round($avgCandidatures, 1),
+            'top_wishlist' => $topWishlist,
+            'repartition_duree' => $repartitionDuree
+        ];
+    }
 }
