@@ -2,3 +2,4 @@ vendor/
 docs/
 .env
 database/seed.sql
+.phpunit.result.cache
