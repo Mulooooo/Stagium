@@ -83,7 +83,7 @@
         </nav>
         <div class="header__actions">
             {% if is_logged_in %}
-                <div class="avatar">{{ user_initials }}</div>
+                <a href="/profile" class="avatar">{{ user_initials }}</a>
             {% else %}
                 <a href="/login" class="btn btn--primary">Connexion</a>
             {% endif %}

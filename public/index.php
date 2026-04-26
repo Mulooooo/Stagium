@@ -12,6 +12,7 @@ use App\Controllers\PilotController;
 use App\Controllers\WishlistController;
 use App\Controllers\LegalController;
 use App\Controllers\EvaluationController;
+use App\Controllers\ProfileController;
 
 session_start();
 
@@ -59,5 +60,8 @@ $r->addRoute('/wishlist/toggle', [WishlistController::class, 'toggle'], ['etudia
 $r->addRoute('/pilot/applications', [ApplicationController::class, 'pilotApplications'], ['pilote']);
 
 $r->addRoute('/mentions-legales', [LegalController::class, 'index']);
+
+$r->addRoute('/profile', [ProfileController::class, 'index'], ['etudiant', 'pilote', 'administrateur']);
+$r->addRoute('/profile/update', [ProfileController::class, 'update'], ['etudiant', 'pilote', 'administrateur']);
 
 $r->run();

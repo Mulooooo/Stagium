@@ -24,3 +24,17 @@ document.getElementById('cv')?.addEventListener('change', function() {
 document.getElementById('lm')?.addEventListener('change', function() {
     document.getElementById('lm-label').textContent = this.files[0].name;
 });
+
+document.querySelectorAll('input[type="file"]').forEach(input => {
+    input.addEventListener('change', function() {
+        const maxSize = 2 * 1024 * 1024;
+        if (this.files[0] && this.files[0].size > maxSize) {
+            alert('Fichier trop volumineux. Veuillez sélectionner un fichier de moins de 2Mo.');
+            this.value = '';
+        }
+        if (this.files[0] && this.files[0].type !== 'application/pdf') {
+            alert('Le fichier doit être un PDF.');
+            this.value = '';
+        }
+    });
+});

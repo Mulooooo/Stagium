@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mon profil{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Mon profil</h1>
+</div>
+
+<div class="content-card">
+    <h2 class="content-card__title">Mes informations</h2>
+    <form method="post" action="/profile/update" class="auth-form">
+        <div class="form-field">
+            <label class="form-field__label" for="prenom">Prénom</label>
+            <input class="form-field__input" type="text" id="prenom" name="prenom" value="{{ user.prenom }}" required>
+        </div>
+        <div class="form-field">
+            <label class="form-field__label" for="nom">Nom</label>
+            <input class="form-field__input" type="text" id="nom" name="nom" value="{{ user.nom }}" required>
+        </div>
+        <div class="form-field">
+            <label class="form-field__label" for="email">Email</label>
+            <input class="form-field__input" type="email" id="email" name="email" value="{{ user.email }}" required>
+        </div>
+        <button type="submit" class="btn btn--primary">Modifier</button>
+    </form>
+</div>
+
+<div class="content-card">
+    <a href="/logout" class="btn btn--danger">Déconnexion</a>
+</div>
+{% endblock %}
