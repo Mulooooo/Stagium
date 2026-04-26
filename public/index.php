@@ -37,6 +37,7 @@ $r->addRoute('/companies/create', [CompanyController::class, 'create'], ['pilote
 $r->addRoute('/companies/delete', [CompanyController::class, 'delete'], ['pilote', 'administrateur']);
 $r->addRoute('/companies/edit', [CompanyController::class, 'edit'], ['pilote', 'administrateur']);
 $r->addRoute('/companies/evaluate', [EvaluationController::class, 'evaluate'], ['pilote', 'administrateur']);
+$r->addRoute('/companies/sites/create', [CompanyController::class, 'createSite'], ['pilote', 'administrateur']);
 
 $r->addRoute('/student/applications', [ApplicationController::class, 'myApplications'], ['etudiant']);
 

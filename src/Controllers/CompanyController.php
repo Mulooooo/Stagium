@@ -8,9 +8,9 @@ class CompanyController extends Controller{
     public function index(){
         $page = $_GET['page'] ?? 1;
         $limit = 6;
-        $comanyModel = new CompanyModel();
+        $companyModel = new CompanyModel();
         $filters["q"] = $_GET['q'] ?? '';
-        $companies = $comanyModel->searchCompanies($filters, $page, $limit);
+        $companies = $companyModel->searchCompanies($filters, $page, $limit);
         $total = $companies['total'];
         $items = $companies['items'];
         $totalPages = ceil($total / $limit);
@@ -22,22 +22,23 @@ class CompanyController extends Controller{
             header('Location: /companies'); 
             exit;
         }
-        $comanyModel = new CompanyModel();
-        $company = $comanyModel->findById($id);
+        $companyModel = new CompanyModel();
+        $company = $companyModel->findById($id);
+        $sites = $companyModel->getSitesByCompany($id);
 
         $offerModel = new OfferModel();
         $offers = $offerModel->getOffersByCompany($id);
 
         $evaluationModel = new EvaluationModel();
         $evaluations = $evaluationModel->getByEntreprise($id);
-        $this->render("companies/show.html.twig", ['company' => $company, 'offers' => $offers, 'evaluations' => $evaluations]);
+        $this->render("companies/show.html.twig", ['company' => $company, 'offers' => $offers, 'evaluations' => $evaluations, 'sites' => $sites]);
     }
 
     public function create(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = $_POST;
-            $comanyModel = new CompanyModel();
-            $company = $comanyModel->create($data);
+            $companyModel = new CompanyModel();
+            $company = $companyModel->create($data);
             header('Location: /companies');
             exit;
         }
@@ -49,22 +50,41 @@ class CompanyController extends Controller{
             header('Location: /companies'); 
             exit;
         }
-        $comanyModel = new CompanyModel();
+        $companyModel = new CompanyModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = $_POST;
-            $company = $comanyModel->update($id, $data);
+            $company = $companyModel->update($id, $data);
             header('Location: /companies');
             exit;
         }
-        $company = $comanyModel->findById($id);
+        $company = $companyModel->findById($id);
         $this->render("companies/edit.html.twig", ['company' => $company]);
     }
     public function delete(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
-            $comanyModel = new CompanyModel();
-            $companies = $comanyModel->delete($id);
+            $companyModel = new CompanyModel();
+            $companies = $companyModel->delete($id);
             header('Location: /companies');
+            exit;
+        }
+    }
+
+    public function createSite() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $entrepriseId = $_POST['entreprise_id'];
+            $companyModel = new CompanyModel();
+            $companyModel->createSite(
+                $entrepriseId,
+                $_POST['nom_site'],
+                $_POST['ville'],
+                $_POST['code_postal'],
+                $_POST['rue'],
+                $_POST['siret'],
+                $_POST['numero'],
+                $_POST['pays']
+            );
+            header('Location: /companies/show?id=' . $entrepriseId);
             exit;
         }
     }

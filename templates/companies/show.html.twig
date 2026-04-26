@@ -56,6 +56,61 @@
 </div>
 
 <div class="content-card">
+    <h2 class="content-card__title">Sites</h2>
+    {% if sites %}
+        {% for site in sites %}
+        <div class="company-card">
+            <div class="company-card__body">
+                <p class="company-card__name">{{ site.nom_site }}</p>
+                <p class="company-card__desc">{{ site.rue }}, {{ site.code_postal }} {{ site.ville }}</p>
+                <p class="company-card__desc">SIRET : {{ site.siret }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Aucun site pour cette entreprise.</p>
+    {% endif %}
+</div>
+
+{% if user_role in ['pilote', 'administrateur'] %}
+<div class="content-card">
+    <h2 class="content-card__title">Ajouter un site</h2>
+    <form method="post" action="/companies/sites/create" class="auth-form">
+        <input type="hidden" name="entreprise_id" value="{{ company.id }}">
+        <div class="form-field">
+            <label class="form-field__label">Nom du site</label>
+            <input class="form-field__input" type="text" name="nom_site" required>
+        </div>
+        <div class="form-field">
+            <label class="form-field__label">Numéro de rue</label>
+            <input class="form-field__input" type="text" name="numero" maxlength="8" required>
+        </div>
+        <div class="form-field">
+            <label class="form-field__label">Rue</label>
+            <input class="form-field__input" type="text" name="rue" required>
+        </div>
+        <div class="form-field">
+            <label class="form-field__label">Code postal</label>
+            <input class="form-field__input" type="text" pattern="\d{5}" name="code_postal" required>
+        </div>
+        <div class="form-field">
+            <label class="form-field__label">Ville</label>
+            <input class="form-field__input" type="text" name="ville" required>
+        </div>
+        <div class="form-field">
+            <label class="form-field__label">SIRET (14 chiffres)</label>
+            <input class="form-field__input" type="text" pattern="\d{14}" name="siret" required>
+        </div>
+        <div class="form-field">
+            <label class="form-field__label">Pays</label>
+            <input class="form-field__input" type="text" name="pays" value="France">
+        </div>
+        <button type="submit" class="btn btn--primary">Ajouter</button>
+    </form>
+</div>
+{% endif %}
+
+<div class="content-card">
     <h2 class="content-card__title">Offres de stage</h2>
     {% if offers is defined and offers %}
         {% for offer in offers %}

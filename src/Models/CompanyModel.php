@@ -58,4 +58,24 @@ class CompanyModel extends Model{
         $stmt = $this->db->prepare("DELETE FROM ENTREPRISE WHERE id = :id;");
         return $stmt->execute([':id' => $id]);
     }
+
+    public function getSitesByCompany(int $entrepriseId): array {
+        $stmt = $this->db->prepare("SELECT * FROM SITE_ENTREPRISE WHERE entreprise_id = :id");
+        $stmt->execute([':id' => $entrepriseId]);
+        return $stmt->fetchAll();
+    }
+
+    public function createSite(int $entrepriseId, string $nomSite, string $ville, string $codePostal, string $rue, string $siret, string $numero, string $pays = 'France'): bool {
+        $stmt = $this->db->prepare("INSERT INTO SITE_ENTREPRISE (entreprise_id, nom_site, ville, code_postal, rue, siret, numero, pays) VALUES (:entreprise_id, :nom_site, :ville, :code_postal, :rue, :siret, :numero, :pays)");
+        return $stmt->execute([
+            ':entreprise_id' => $entrepriseId,
+            ':nom_site' => $nomSite,
+            ':ville' => $ville,
+            ':code_postal' => $codePostal,
+            ':rue' => $rue,
+            ':siret' => $siret,
+            ':numero' => $numero,
+            ':pays' => $pays
+        ]);
+    }
 }
