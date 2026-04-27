@@ -29,7 +29,9 @@
                 <li><a href="/offers">Offres de stage</a></li>
                 <li><a href="/companies">Entreprises</a></li>
                 {% if user_role in ['pilote', 'administrateur'] %}
-                <li><a href="/students">Étudiants</a></li>                {% endif %}
+                <li><a href="/students">Étudiants</a></li>
+                <li><a href="/promotions">Promotions</a></li>
+                {% endif %}
                 {% if user_role == 'administrateur' %}
                 <li><a href="/pilots">Pilotes</a></li>
                 {% endif %}
@@ -63,6 +65,7 @@
                 <li><a href="/companies">Entreprises</a></li>
                 {% if user_role in ['pilote', 'administrateur'] %}
                 <li><a href="/students">Étudiants</a></li>
+                <li><a href="/promotions">Promotions</a></li>
                 {% endif %}
                 {% if user_role == 'administrateur' %}
                 <li><a href="/pilots">Pilotes</a></li>

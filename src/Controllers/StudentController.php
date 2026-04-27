@@ -25,9 +25,13 @@ class StudentController extends Controller {
     }
     public function create(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $studentModel = new StudentModel();
+            if ($studentModel->emailExists($_POST['email'])) {
+                $this->render("students/create.html.twig", ['error' => 'Cet email est déjà utilisé.']);
+                return;
+            }
             $data = $_POST;
             $data['mot_de_passe'] = password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT);
-            $studentModel = new StudentModel();
             $studentModel->create($data);
             header('Location: /students');
             exit;
@@ -42,6 +46,11 @@ class StudentController extends Controller {
         }
         $studentModel = new StudentModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if ($studentModel->emailExistsForOther($_POST['email'], $id)) {
+                $student = $studentModel->findById($id);
+                $this->render("students/edit.html.twig", ['student' => $student, 'error' => 'Cet email est déjà utilisé.']);
+                return;
+            }
             $data = $_POST;
             if (empty($data['mot_de_passe'])) {
                 $student = $studentModel->findById($id);
@@ -49,7 +58,7 @@ class StudentController extends Controller {
             } else {
                 $data['mot_de_passe'] = password_hash($data['mot_de_passe'], PASSWORD_DEFAULT);
             }
-            $offer = $studentModel->update($id, $data);
+            $studentModel->update($id, $data);
             header('Location: /students');
             exit;
         }

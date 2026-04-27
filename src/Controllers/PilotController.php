@@ -25,9 +25,13 @@ class PilotController extends Controller {
     }
     public function create(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $pilotModel = new PilotModel();
+            if ($pilotModel->emailExists($_POST['email'])) {
+                $this->render("pilots/create.html.twig", ['error' => 'Cet email est déjà utilisé.']);
+                return;
+            }
             $data = $_POST;
             $data['mot_de_passe'] = password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT);
-            $pilotModel = new PilotModel();
             $pilotModel->create($data);
             header('Location: /pilots');
             exit;
@@ -42,6 +46,11 @@ class PilotController extends Controller {
         }
         $pilotModel = new PilotModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if ($pilotModel->emailExistsForOther($_POST['email'], $id)) {
+                $pilot = $pilotModel->findById($id);
+                $this->render("pilots/edit.html.twig", ['pilot' => $pilot, 'error' => 'Cet email est déjà utilisé.']);
+                return;
+            }
             $data = $_POST;
             if (empty($data['mot_de_passe'])) {
                 $pilot = $pilotModel->findById($id);
@@ -49,7 +58,7 @@ class PilotController extends Controller {
             } else {
                 $data['mot_de_passe'] = password_hash($data['mot_de_passe'], PASSWORD_DEFAULT);
             }
-            $offer = $pilotModel->update($id, $data);
+            $pilotModel->update($id, $data);
             header('Location: /pilots');
             exit;
         }

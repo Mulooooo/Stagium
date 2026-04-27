@@ -35,4 +35,15 @@ class PilotModel extends Model{
         $stmt = $this->db->prepare("DELETE FROM UTILISATEUR WHERE id = :id AND role = 'pilote';");
         return $stmt->execute([':id' => $id]);
     }
+    public function emailExists(string $email): bool {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM UTILISATEUR WHERE email = :email");
+        $stmt->execute([':email' => $email]);
+        return $stmt->fetchColumn() > 0;
+    }
+
+    public function emailExistsForOther(string $email, int $currentId): bool {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM UTILISATEUR WHERE email = :email AND id != :id");
+        $stmt->execute([':email' => $email, ':id' => $currentId]);
+        return $stmt->fetchColumn() > 0;
+    }
 }

@@ -13,6 +13,7 @@ use App\Controllers\WishlistController;
 use App\Controllers\LegalController;
 use App\Controllers\EvaluationController;
 use App\Controllers\ProfileController;
+use App\Controllers\PromotionController;
 
 session_start();
 
@@ -63,5 +64,14 @@ $r->addRoute('/mentions-legales', [LegalController::class, 'index']);
 
 $r->addRoute('/profile', [ProfileController::class, 'index'], ['etudiant', 'pilote', 'administrateur']);
 $r->addRoute('/profile/update', [ProfileController::class, 'update'], ['etudiant', 'pilote', 'administrateur']);
+
+$r->addRoute('/promotions', [PromotionController::class, 'index'], ['pilote', 'administrateur']);
+$r->addRoute('/promotions/show', [PromotionController::class, 'show'], ['pilote', 'administrateur']);
+$r->addRoute('/promotions/create', [PromotionController::class, 'create'], ['administrateur']);
+$r->addRoute('/promotions/addStudent', [PromotionController::class, 'addStudent'], ['pilote', 'administrateur']);
+$r->addRoute('/promotions/addPilot', [PromotionController::class, 'addPilot'], ['administrateur']);
+$r->addRoute('/promotions/removeStudent', [PromotionController::class, 'removeStudent'], ['pilote', 'administrateur']);
+$r->addRoute('/promotions/removePilot', [PromotionController::class, 'removePilot'], ['administrateur']);
+$r->addRoute('/promotions/delete', [PromotionController::class, 'delete'], ['administrateur']);
 
 $r->run();

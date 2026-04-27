@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ promotion.filiere }}{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>{{ promotion.filiere }} {{ promotion.annee_scolaire }}</h1>
+    {% if user_role == 'administrateur' %}
+    <form method="post" action="/promotions/delete">
+        <input type="hidden" name="id" value="{{ promotion.id }}">
+        <button type="submit" class="btn btn--danger">Supprimer</button>
+    </form>
+    {% endif %}
+    <a href="/promotions" class="btn btn--primary">Retour</a>
+</div>
+
+<div class="content-card">
+    <h2 class="content-card__title">Étudiants</h2>
+    {% for student in students %}
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+        <span>{{ student.prenom }} {{ student.nom }}</span>
+        <form method="post" action="/promotions/removeStudent">
+            <input type="hidden" name="promotion_id" value="{{ promotion.id }}">
+            <input type="hidden" name="utilisateur_id" value="{{ student.utilisateur_id }}">
+            <button type="submit" class="btn btn--danger">Retirer</button>
+        </form>
+    </div>
+    {% endfor %}
+    <form method="post" action="/promotions/addStudent" style="margin-top:1rem;">
+        <input type="hidden" name="promotion_id" value="{{ promotion.id }}">
+        <select class="form-field__input" name="utilisateur_id">
+            {% for student in all_students %}
+            <option value="{{ student.id }}">{{ student.prenom }} {{ student.nom }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn--primary">Ajouter</button>
+    </form>
+</div>
+
+{% if user_role == 'administrateur' %}
+<div class="content-card">
+    <h2 class="content-card__title">Pilotes</h2>
+    {% for pilot in pilots %}
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+        <span>{{ pilot.prenom }} {{ pilot.nom }}</span>
+        <form method="post" action="/promotions/removePilot">
+            <input type="hidden" name="promotion_id" value="{{ promotion.id }}">
+            <input type="hidden" name="utilisateur_id" value="{{ pilot.utilisateur_id }}">
+            <button type="submit" class="btn btn--danger">Retirer</button>
+        </form>
+    </div>
+    {% endfor %}
+    <form method="post" action="/promotions/addPilot" style="margin-top:1rem;">
+        <input type="hidden" name="promotion_id" value="{{ promotion.id }}">
+        <select class="form-field__input" name="utilisateur_id">
+            {% for pilot in all_pilots %}
+            <option value="{{ pilot.id }}">{{ pilot.prenom }} {{ pilot.nom }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn--primary">Ajouter</button>
+    </form>
+</div>
+{% endif %}
+{% endblock %}
