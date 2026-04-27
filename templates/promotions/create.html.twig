@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% block title %}Créer une promotion{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Créer une promotion</h1>
+    <a href="/promotions" class="btn btn--primary">Retour</a>
+</div>
+<div class="content-card">
+    <form method="post" class="auth-form">
+        <div class="form-field">
+            <label class="form-field__label" for="filiere">Filière</label>
+            <input class="form-field__input" type="text" id="filiere" name="filiere" placeholder="Informatique" required>
+        </div>
+        <div class="form-field">
+            <label class="form-field__label" for="type_cycle">Type de cycle</label>
+            <input class="form-field__input" type="text" id="type_cycle" name="type_cycle" placeholder="Bachelor" required>
+        </div>
+        <div class="form-field">
+            <label class="form-field__label" for="annee_cycle">Année de cycle</label>
+            <input class="form-field__input" type="number" id="annee_cycle" name="annee_cycle" min="1" max="5" required>
+        </div>
+        <div class="form-field">
+            <label class="form-field__label" for="annee_scolaire">Année scolaire</label>
+            <input class="form-field__input" type="text" id="annee_scolaire" name="annee_scolaire" placeholder="2024-2025" required>
+        </div>
+        <button type="submit" class="btn btn--primary">Créer</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block title %}Promotions{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Promotions</h1>
+    {% if user_role == 'administrateur' %}
+    <a href="/promotions/create" class="btn btn--primary">+ Créer une promotion</a>
+    {% endif %}
+</div>
+{% for promotion in promotions %}
+<div class="content-card">
+    <a href="/promotions/show?id={{ promotion.id }}" class="content-card__title">{{ promotion.filiere }} {{ promotion.annee_scolaire }}</a>
+    <p class="offer-detail__location">{{ promotion.type_cycle }} A{{ promotion.annee_cycle }}</p>
+</div>
+{% endfor %}
+{% endblock %}
