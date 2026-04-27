@@ -14,6 +14,32 @@ class CompanyModel extends Model{
         $total = $countStmt->fetchColumn();
         return ['items' => $stmt->fetchAll(), 'total' => $total];
     }
+
+    public function searchCompanies(array $filters, $page, $limit) {
+        $sql = "SELECT * FROM ENTREPRISE WHERE est_active = 1";
+        $params = [];
+
+        if (!empty($filters['q'])) {
+            $sql .= " AND nom LIKE :q";
+            $params[':q'] = '%' . $filters['q'] . '%';
+        }
+
+        $countStmt = $this->db->prepare("SELECT COUNT(*) FROM ($sql) AS sub");
+        $countStmt->execute($params);
+        $total = $countStmt->fetchColumn();
+
+        $offset = ($page - 1) * $limit;
+        $sql .= " LIMIT :limit OFFSET :offset";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
+        foreach ($params as $key => $val) {
+            $stmt->bindValue($key, $val);
+        }
+        $stmt->execute();
+        return ['items' => $stmt->fetchAll(), 'total' => $total];
+    }
+
     public function findById($id){
         $stmt = $this->db->prepare("SELECT * FROM ENTREPRISE WHERE id = :id;");
         $stmt->execute([':id' => $id]);
@@ -31,5 +57,25 @@ class CompanyModel extends Model{
     public function delete($id){
         $stmt = $this->db->prepare("DELETE FROM ENTREPRISE WHERE id = :id;");
         return $stmt->execute([':id' => $id]);
+    }
+
+    public function getSitesByCompany(int $entrepriseId): array {
+        $stmt = $this->db->prepare("SELECT * FROM SITE_ENTREPRISE WHERE entreprise_id = :id");
+        $stmt->execute([':id' => $entrepriseId]);
+        return $stmt->fetchAll();
+    }
+
+    public function createSite(int $entrepriseId, string $nomSite, string $ville, string $codePostal, string $rue, string $siret, string $numero, string $pays = 'France'): bool {
+        $stmt = $this->db->prepare("INSERT INTO SITE_ENTREPRISE (entreprise_id, nom_site, ville, code_postal, rue, siret, numero, pays) VALUES (:entreprise_id, :nom_site, :ville, :code_postal, :rue, :siret, :numero, :pays)");
+        return $stmt->execute([
+            ':entreprise_id' => $entrepriseId,
+            ':nom_site' => $nomSite,
+            ':ville' => $ville,
+            ':code_postal' => $codePostal,
+            ':rue' => $rue,
+            ':siret' => $siret,
+            ':numero' => $numero,
+            ':pays' => $pays
+        ]);
     }
 }

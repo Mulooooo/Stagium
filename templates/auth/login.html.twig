@@ -1,20 +1,30 @@
 {% extends 'base.html.twig' %}
-{% block title %}
-    Login
-{% endblock %}
+{% block title %}Connexion{% endblock %}
 {% block content %}
-{% if error %}
-    <p>{{ error }}</p>
-{% endif %}
-    <form action="/login" method="post">
-        <label for="email">email:</label>
-        <input type="email" id="email" name="email" 
-            placeholder="a@a.a" required>
-
-        <label for="mot_de_passe">mot de passe:</label>
-        <input type="password" id="mot_de_passe" name="mot_de_passe" 
-            placeholder="mdp" required>
-
-        <button type="submit"> login </button>
-    </form>
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-card__header">
+            <h1 class="auth-card__title">Connexion</h1>
+            <p class="auth-card__sub">Connecte-toi pour accéder à tes offres et candidatures</p>
+        </div>
+        {% if error is defined and error %}
+            <div class="alert alert--error">{{ error }}</div>
+        {% endif %}
+        <form action="/login" method="POST" class="auth-form">
+            <div class="form-field">
+                <label class="form-field__label" for="email">Adresse e-mail</label>
+                <div class="form-field__control">
+                    <input type="email" id="email" name="email" class="form-field__input" placeholder="votre@email.com" required>
+                </div>
+            </div>
+            <div class="form-field">
+                <label class="form-field__label" for="mot_de_passe">Mot de passe</label>
+                <div class="form-field__control">
+                    <input type="password" id="mot_de_passe" name="mot_de_passe" class="form-field__input" placeholder="••••••••" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn--primary btn--full">Se connecter</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

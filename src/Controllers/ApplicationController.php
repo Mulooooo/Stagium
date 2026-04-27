@@ -17,6 +17,20 @@ class ApplicationController extends Controller{
                 $lm = $_FILES['lm'];
                 $cv_destination = dirname(__DIR__, 2) . '/storage/cv/' . uniqid() . '_' . $cv['name'];
                 $lm_destination = dirname(__DIR__, 2) . '/storage/lm/' . uniqid() . '_' . $lm['name'];
+                foreach ($_FILES as $key => $file) {
+                    if ($file['error'] !== UPLOAD_ERR_OK) {
+                        header('Location: /offers/show?id=' . $_POST['offre_id'] . '&error=upload');
+                        exit;
+                    }
+                    if ($file['size'] > 2 * 1024 * 1024) {
+                        header('Location: /offers/show?id=' . $_POST['offre_id'] . '&error=size');
+                        exit;
+                    }
+                    if ($file['type'] !== 'application/pdf') {
+                        header('Location: /offers/show?id=' . $_POST['offre_id'] . '&error=type');
+                        exit;
+                    }
+                }
                 move_uploaded_file($cv['tmp_name'], $cv_destination);
                 move_uploaded_file($lm['tmp_name'], $lm_destination);
                 $applicationModel->apply(['chemin_cv' => $cv_destination, 'chemin_lm' => $lm_destination, 'offre_id' => $_POST['offre_id'], 'utilisateur_id' => $_SESSION['user_id']]);

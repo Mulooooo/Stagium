@@ -1,7 +1,40 @@
 {% extends 'base.html.twig' %}
-{% block title %}
-    Accueil
-{% endblock %}
+{% block title %}Accueil{% endblock %}
 {% block content %}
-    <p>twig template engine is working!</p>
+    <div class="hero">
+        <h1>Ton prochain stage commence ici</h1>
+        <p>Plein d'offres n'attendent que toi. <br>Lance-toi !</p>
+        <a href="/offers">Voir les offres</a>
+    </div>
+
+    <h2>Dernières offres</h2>
+    <div class="offers-grid">
+        {% for offer in latest_offers %}
+            {% include 'components/offer_card.html.twig' with { offer: offer } %}
+        {% endfor %}
+    </div>
+
+    <h2>Stagium en chiffres</h2>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <p class="stat-card__value">{{ stats.total }}</p>
+            <p class="stat-card__label">Offres disponibles</p>
+        </div>
+        <div class="stat-card">
+            <p class="stat-card__value">{{ stats.avg_candidatures }}</p>
+            <p class="stat-card__label">Candidatures moyennes par offre</p>
+        </div>
+        <div class="stat-card">
+            <p class="stat-card__label">Top wishlist</p>
+            {% for item in stats.top_wishlist %}
+            <p>{{ item.titre }} -> {{ item.nb_favoris }} ❤️</p>
+            {% endfor %}
+        </div>
+        <div class="stat-card">
+            <p class="stat-card__label">Répartition par durée</p>
+            {% for item in stats.repartition_duree %}
+            <p>{{ item.duree_semaines }} semaines -> {{ item.nb }} offres</p>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

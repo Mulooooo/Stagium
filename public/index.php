@@ -10,6 +10,9 @@ use App\Controllers\ApplicationController;
 use App\Controllers\StudentController;
 use App\Controllers\PilotController;
 use App\Controllers\WishlistController;
+use App\Controllers\LegalController;
+use App\Controllers\EvaluationController;
+use App\Controllers\ProfileController;
 
 session_start();
 
@@ -34,11 +37,13 @@ $r->addRoute('/companies/show', [CompanyController::class, 'show']);
 $r->addRoute('/companies/create', [CompanyController::class, 'create'], ['pilote', 'administrateur']);
 $r->addRoute('/companies/delete', [CompanyController::class, 'delete'], ['pilote', 'administrateur']);
 $r->addRoute('/companies/edit', [CompanyController::class, 'edit'], ['pilote', 'administrateur']);
+$r->addRoute('/companies/evaluate', [EvaluationController::class, 'evaluate'], ['pilote', 'administrateur']);
+$r->addRoute('/companies/sites/create', [CompanyController::class, 'createSite'], ['pilote', 'administrateur']);
 
 $r->addRoute('/student/applications', [ApplicationController::class, 'myApplications'], ['etudiant']);
 
-$r->addRoute('/students', [StudentController::class, 'index']);
-$r->addRoute('/students/show', [StudentController::class, 'show']);
+$r->addRoute('/students', [StudentController::class, 'index'], ['pilote', 'administrateur']);
+$r->addRoute('/students/show', [StudentController::class, 'show'], ['pilote', 'administrateur']);
 $r->addRoute('/students/create', [StudentController::class, 'create'], ['pilote', 'administrateur']);
 $r->addRoute('/students/edit', [StudentController::class, 'edit'], ['pilote', 'administrateur']);
 $r->addRoute('/students/delete', [StudentController::class, 'delete'], ['pilote', 'administrateur']);
@@ -53,5 +58,10 @@ $r->addRoute('/wishlist', [WishlistController::class, 'index'], ['etudiant']);
 $r->addRoute('/wishlist/toggle', [WishlistController::class, 'toggle'], ['etudiant']);
 
 $r->addRoute('/pilot/applications', [ApplicationController::class, 'pilotApplications'], ['pilote']);
+
+$r->addRoute('/mentions-legales', [LegalController::class, 'index']);
+
+$r->addRoute('/profile', [ProfileController::class, 'index'], ['etudiant', 'pilote', 'administrateur']);
+$r->addRoute('/profile/update', [ProfileController::class, 'update'], ['etudiant', 'pilote', 'administrateur']);
 
 $r->run();

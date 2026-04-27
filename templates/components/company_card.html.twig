@@ -1,0 +1,9 @@
+<div class="company-card">
+    <div class="company-card__initials">{{ company.nom|slice(0,2)|upper }}</div>
+    <div class="company-card__body">
+        <a href="/companies/show?id={{ company.id }}" class="company-card__name">{{ company.nom }}</a>
+        {% if company.description is defined and company.description %}
+        <p class="company-card__desc">{{ company.description }}</p>
+        {% endif %}
+    </div>
+</div>

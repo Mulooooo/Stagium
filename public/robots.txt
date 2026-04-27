@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /students
+Disallow: /pilots
+Disallow: /student
+Disallow: /pilot
+Sitemap: https://stagium.fr/sitemap.xml

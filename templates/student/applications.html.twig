@@ -1,15 +1,14 @@
 {% extends 'base.html.twig' %}
-{% block title %}
-    Offres postulées
-{% endblock %}
+{% block title %}Mes candidatures{% endblock %}
 {% block content %}
-    <div>
-    {% for application in applications %}
-        <div>
-        <a href="/offers/show?id={{ application.offre_id }}">{{ application.titre }}</a>
-        <p>{{ application.nom }}</p>
-        <p>{{ application.ville }}</p>
-        </div>
-    {% endfor %}
-    </div>
+<div class="page-header">
+    <h1>Mes candidatures</h1>
+</div>
+{% for application in applications %}
+<div class="content-card">
+    <a href="/offers/show?id={{ application.offre_id }}" class="content-card__title">{{ application.titre }}</a>
+    <p class="offer-detail__company">{{ application.nom }}</p>
+    <p class="offer-detail__location">{{ application.ville }}</p>
+</div>
+{% endfor %}
 {% endblock %}
