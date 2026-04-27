@@ -24,6 +24,7 @@ class TemplateEngine{
                 : null,
             
             'user_role' => $_SESSION['user_role'] ?? null,
+            'csrf_token' => \App\Core\Csrf::generate(),
         ];
         $finalData = array_merge($globalData, $data);
         echo $this->twig->render($template, $finalData);

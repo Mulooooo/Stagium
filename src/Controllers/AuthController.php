@@ -6,6 +6,11 @@ class AuthController extends Controller{
     public function login() {
         $error = null;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('auth/login.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
             $email = $_POST['email'];
             $mot_de_passe = $_POST['mot_de_passe'];
             $userModel = new UserModel();
