@@ -26,7 +26,7 @@ class StudentController extends Controller {
     public function create(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!\App\Core\Csrf::verify()) {
-                $this->render('offers/create.html.twig', ['error' => 'Jeton CSRF invalide']);
+                $this->render('students/create.html.twig', ['error' => 'Jeton CSRF invalide']);
                 return;
             }
 

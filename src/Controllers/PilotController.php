@@ -25,6 +25,11 @@ class PilotController extends Controller {
     }
     public function create(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('pilots/create.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
             $pilotModel = new PilotModel();
             if ($pilotModel->emailExists($_POST['email'])) {
                 $this->render("pilots/create.html.twig", ['error' => 'Cet email est déjà utilisé.']);
@@ -46,6 +51,11 @@ class PilotController extends Controller {
         }
         $pilotModel = new PilotModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('pilots/edit.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
             if ($pilotModel->emailExistsForOther($_POST['email'], $id)) {
                 $pilot = $pilotModel->findById($id);
                 $this->render("pilots/edit.html.twig", ['pilot' => $pilot, 'error' => 'Cet email est déjà utilisé.']);
@@ -68,6 +78,11 @@ class PilotController extends Controller {
     public function delete(){
         $pilotModel = new PilotModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('pilots/show.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
             $pilotModel->delete($_POST['id']);
             header('Location: /pilots');
             exit;

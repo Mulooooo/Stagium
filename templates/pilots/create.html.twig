@@ -10,6 +10,8 @@
     <div class="alert alert--error">{{ error }}</div>
     {% endif %}
     <form method="post" class="auth-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
         <div class="form-field">
             <label class="form-field__label" for="nom">Nom</label>
             <input class="form-field__input" type="text" id="nom" name="nom" placeholder="Nom" required>
