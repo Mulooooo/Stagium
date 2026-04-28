@@ -82,6 +82,8 @@
             {% endif %}
         {% elseif user_role in ['administrateur', 'pilote'] %}
         <form method="post" action="/offers/delete">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            
             <input type="hidden" name="id" value="{{ offer.id }}">
             <button type="submit" class="btn btn--danger">Supprimer</button>
         </form>
