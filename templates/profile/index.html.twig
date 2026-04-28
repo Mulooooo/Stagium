@@ -7,7 +7,12 @@
 
 <div class="content-card">
     <h2 class="content-card__title">Mes informations</h2>
+    {% if error is defined and error %}
+        <div class="alert alert--error">{{ error }}</div>
+    {% endif %}
     <form method="post" action="/profile/update" class="auth-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        
         <div class="form-field">
             <label class="form-field__label" for="prenom">Prénom</label>
             <input class="form-field__input" type="text" id="prenom" name="prenom" value="{{ user.prenom }}" required>

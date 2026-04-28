@@ -12,6 +12,11 @@ class ProfileController extends Controller {
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('profile/index.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
             $userModel = new UserModel();
             $userModel->update($_SESSION['user_id'], $_POST);
             $_SESSION['user_prenom'] = $_POST['prenom'];
