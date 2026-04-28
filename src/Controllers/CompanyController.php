@@ -36,6 +36,11 @@ class CompanyController extends Controller{
 
     public function create(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('companies/create.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
             $data = $_POST;
             $companyModel = new CompanyModel();
             $company = $companyModel->create($data);
@@ -52,6 +57,11 @@ class CompanyController extends Controller{
         }
         $companyModel = new CompanyModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('companies/edit.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
             $data = $_POST;
             $company = $companyModel->update($id, $data);
             header('Location: /companies');
@@ -62,6 +72,11 @@ class CompanyController extends Controller{
     }
     public function delete(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('companies/edit.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
             $id = $_POST['id'];
             $companyModel = new CompanyModel();
             $companies = $companyModel->delete($id);
@@ -72,6 +87,11 @@ class CompanyController extends Controller{
 
     public function createSite() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('companies/show.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
             $entrepriseId = $_POST['entreprise_id'];
             $companyModel = new CompanyModel();
             $companyModel->createSite(

@@ -5,6 +5,9 @@
     <h1>{{ company.nom }}</h1>
     <a href="/companies" class="btn btn--primary">Retour</a>
 </div>
+{% if error is defined and error %}
+    <div class="alert alert--error">{{ error }}</div>
+{% endif %}
 
 <div class="offer-detail">
     <p class="offer-detail__company">{{ company.description }}</p>
@@ -15,6 +18,8 @@
     <div class="offer-detail__actions">
         <a href="/companies/edit?id={{ company.id }}" class="btn btn--primary">Modifier</a>
         <form method="post" action="/companies/delete">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
             <input type="hidden" name="id" value="{{ company.id }}">
             <button type="submit" class="btn btn--danger">Supprimer</button>
         </form>
@@ -26,6 +31,8 @@
 <div class="content-card">
     <h2 class="content-card__title">Évaluer cette entreprise</h2>
     <form method="post" action="/companies/evaluate" class="auth-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
         <input type="hidden" name="entreprise_id" value="{{ company.id }}">
         <div class="form-field">
             <label class="form-field__label" for="note">Note (1 à 5)</label>
@@ -76,6 +83,8 @@
 <div class="content-card">
     <h2 class="content-card__title">Ajouter un site</h2>
     <form method="post" action="/companies/sites/create" class="auth-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        
         <input type="hidden" name="entreprise_id" value="{{ company.id }}">
         <div class="form-field">
             <label class="form-field__label">Nom du site</label>
