@@ -45,6 +45,11 @@ class OfferController extends Controller{
     public function create(){
         $offerModel = new OfferModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('offers/create.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
             $data = $_POST;
             $offer = $offerModel->create($data);
             header('Location: /offers');
@@ -61,6 +66,11 @@ class OfferController extends Controller{
         }
         $offerModel = new OfferModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('offers/edit.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+            
             $data = $_POST;
             $offer = $offerModel->update($id, $data);
             header('Location: /offers');
@@ -72,6 +82,11 @@ class OfferController extends Controller{
     }
     public function delete(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('offers/show.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+            
             $id = $_POST['id'];
             $offerModel = new OfferModel();
             $offers = $offerModel->delete($id);
