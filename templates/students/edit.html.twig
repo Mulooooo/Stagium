@@ -5,8 +5,13 @@
     <h1>Modifier {{ student.prenom }} {{ student.nom }}</h1>
     <a href="/students/show?id={{ student.id }}" class="btn btn--primary">Retour</a>
 </div>
+{% if error is defined and error %}
+<div class="alert alert--error">{{ error }}</div>
+{% endif %}
 <div class="content-card">
     <form method="post" class="auth-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        
         <div class="form-field">
             <label class="form-field__label" for="nom">Nom</label>
             <input class="form-field__input" type="text" id="nom" name="nom" value="{{ student.nom }}" required>

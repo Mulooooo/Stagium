@@ -6,11 +6,16 @@
     <div class="offer-detail__actions">
         <a href="/pilots/edit?id={{ pilot.id }}" class="btn btn--primary">Modifier</a>
         <form method="post" action="/pilots/delete">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        
             <input type="hidden" name="id" value="{{ pilot.id }}">
             <button type="submit" class="btn btn--danger">Supprimer</button>
         </form>
     </div>
 </div>
+{% if error is defined and error %}
+<div class="alert alert--error">{{ error }}</div>
+{% endif %}
 <div class="offer-detail">
     <p class="offer-detail__company">{{ pilot.email }}</p>
 </div>

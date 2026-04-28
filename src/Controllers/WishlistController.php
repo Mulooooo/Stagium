@@ -12,6 +12,11 @@ class WishlistController extends Controller{
     public function toggle(){
         $id = $_SESSION['user_id'];
         if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('offers/show.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+            
             $offerId = $_POST['offre_id'];
             $wishlistModel = new WishlistModel();
             $wishlistModel->toggle($id, $offerId);

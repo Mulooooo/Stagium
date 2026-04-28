@@ -5,6 +5,11 @@ use App\Models\EvaluationModel;
 class EvaluationController extends Controller {
     public function evaluate() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('companies/show.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
             $entrepriseId = $_POST['entreprise_id'];
             $note = $_POST['note'];
             $commentaire = $_POST['commentaire'];

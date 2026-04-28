@@ -25,6 +25,11 @@ class StudentController extends Controller {
     }
     public function create(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('students/create.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
             $studentModel = new StudentModel();
             if ($studentModel->emailExists($_POST['email'])) {
                 $this->render("students/create.html.twig", ['error' => 'Cet email est déjà utilisé.']);
@@ -46,6 +51,11 @@ class StudentController extends Controller {
         }
         $studentModel = new StudentModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('students/edit.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
             if ($studentModel->emailExistsForOther($_POST['email'], $id)) {
                 $student = $studentModel->findById($id);
                 $this->render("students/edit.html.twig", ['student' => $student, 'error' => 'Cet email est déjà utilisé.']);
@@ -68,6 +78,11 @@ class StudentController extends Controller {
     public function delete(){
         $studentModel = new StudentModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('students/show.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
             $studentModel->delete($_POST['id']);
             header('Location: /students');
             exit;

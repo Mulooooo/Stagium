@@ -1,86 +1,95 @@
 {% extends 'base.html.twig' %}
 {% block title %}{{ offer.titre }}{% endblock %}
 {% block content %}
-    <div class="page-header">
-        <h1>{{ offer.titre }}</h1>
-        <a href="/offers" class="btn btn--primary">Retour</a>
-    </div>
+<div class="page-header">
+    <h1>{{ offer.titre }}</h1>
+    <a href="/offers" class="btn btn--primary">Retour</a>
+</div>
+{% if error is defined and error %}
+    <div class="alert alert--error">{{ error }}</div>
+{% endif %}
 
-    <div>
-        <div class="offer-detail">
-            <p class="offer-detail__company">{{ offer.nom }}</p>
-            <p class="offer-detail__location">{{ offer.ville }}</p>
-            <p class="offer-detail__date">Début : {{ offer.date_debut }}</p>
-            <p class="offer-detail__duration">{{ offer.duree_semaines }} semaines</p>
-            <p class="offer-detail__salary">{{ offer.gratification }}€/mois</p>
-            
-            <div class="offer-detail__actions">
-                {% if user_role == 'etudiant' %}
-                <form method="post" action="/wishlist/toggle">
-                    <input type="hidden" name="offre_id" value="{{ offer.id }}">
-                    <button type="submit" class="btn-wishlist {% if is_saved %}is-saved{% endif %}">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="{% if is_saved %}currentColor{% else %}none{% endif %}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                        </svg>
-                        {{ is_saved ? 'Retirer des favoris' : 'Ajouter aux favoris' }}
-                    </button>
-                </form>
-                {% elseif user_role in ['pilote', 'administrateur'] %}
-                <a href="/offers/edit?id={{ offer.id }}" class="btn btn--primary">Modifier</a>
-                {% endif %}
-            </div>
-        </div>
+<div>
+    <div class="offer-detail">
+        <p class="offer-detail__company">{{ offer.nom }}</p>
+        <p class="offer-detail__location">{{ offer.ville }}</p>
+        <p class="offer-detail__date">Début : {{ offer.date_debut }}</p>
+        <p class="offer-detail__duration">{{ offer.duree_semaines }} semaines</p>
+        <p class="offer-detail__salary">{{ offer.gratification }}€/mois</p>
         
-        <div class="content-card">
-            <h2 class="content-card__title">Compétences requises</h2>
-            <div class="skills-grid-display">
-                {% for skill in offer.skills %}
-                <span class="skill-tag">{{ skill.libelle }}</span>
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="content-card">
-            <h2 class="content-card__title">Description du poste</h2>
-            {{ offer.description }}
-        </div>
-
-        <div class="content-card">
-           <h2 class="content-card__title">Entreprise</h2>
-           <a href='/companies/show?id={{ offer.entreprise_id }}'>Nom : {{ offer.nom }}</a>
-           <p>{{ offer.company_description }}</p>
-        </div>
-
-        <div class="content-card">
-            <h2 class="content-card__title">Ma candidature</h2>
+        <div class="offer-detail__actions">
             {% if user_role == 'etudiant' %}
-                {% if already_applied %}
-                    <p>Tu as déjà postulé à cette offre.</p>
-                {% else %}
-                    <form method="post" action="/offers/apply" enctype="multipart/form-data">
-                    <input type="hidden" name="offre_id" value="{{ offer.id }}">
-                    <div class="form-field">
-                        <span class="form-field__label">CV (PDF)</span>
-                        <label class="file-label" for="cv" id="cv-label">Choisir un fichier</label>
-                        <input type="file" name="cv" id="cv" required>
-                    </div>
+            <form method="post" action="/wishlist/toggle">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
 
-                    <div class="form-field">
-                        <span class="form-field__label">Lettre de motivation (PDF)</span>
-                        <label class="file-label" for="lm" id="lm-label">Choisir un fichier</label>
-                        <input type="file" name="lm" id="lm" required>
-                    </div>
-                    <button type="submit" class="btn btn--primary">Postuler</button>
-                </form>
-                {% endif %}
-            {% elseif user_role in ['administrateur', 'pilote'] %}
-            <form method="post" action="/offers/delete">
-                <input type="hidden" name="id" value="{{ offer.id }}">
-                <button type="submit" class="btn btn--danger">Supprimer</button>
+                <input type="hidden" name="offre_id" value="{{ offer.id }}">
+                <button type="submit" class="btn-wishlist {% if is_saved %}is-saved{% endif %}">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="{% if is_saved %}currentColor{% else %}none{% endif %}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                    {{ is_saved ? 'Retirer des favoris' : 'Ajouter aux favoris' }}
+                </button>
             </form>
-            {% else %}
-            <p>Connecte-toi pour postuler.</p>
+            {% elseif user_role in ['pilote', 'administrateur'] %}
+            <a href="/offers/edit?id={{ offer.id }}" class="btn btn--primary">Modifier</a>
             {% endif %}
         </div>
     </div>
+    
+    <div class="content-card">
+        <h2 class="content-card__title">Compétences requises</h2>
+        <div class="skills-grid-display">
+            {% for skill in offer.skills %}
+            <span class="skill-tag">{{ skill.libelle }}</span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="content-card">
+        <h2 class="content-card__title">Description du poste</h2>
+        {{ offer.description }}
+    </div>
+
+    <div class="content-card">
+        <h2 class="content-card__title">Entreprise</h2>
+        <a href='/companies/show?id={{ offer.entreprise_id }}'>Nom : {{ offer.nom }}</a>
+        <p>{{ offer.company_description }}</p>
+    </div>
+
+    <div class="content-card">
+        <h2 class="content-card__title">Ma candidature</h2>
+        {% if user_role == 'etudiant' %}
+            {% if already_applied %}
+                <p>Tu as déjà postulé à cette offre.</p>
+            {% else %}
+                <form method="post" action="/offers/apply" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                <input type="hidden" name="offre_id" value="{{ offer.id }}">
+                <div class="form-field">
+                    <span class="form-field__label">CV (PDF)</span>
+                    <label class="file-label" for="cv" id="cv-label">Choisir un fichier</label>
+                    <input type="file" name="cv" id="cv" required>
+                </div>
+
+                <div class="form-field">
+                    <span class="form-field__label">Lettre de motivation (PDF)</span>
+                    <label class="file-label" for="lm" id="lm-label">Choisir un fichier</label>
+                    <input type="file" name="lm" id="lm" required>
+                </div>
+                <button type="submit" class="btn btn--primary">Postuler</button>
+            </form>
+            {% endif %}
+        {% elseif user_role in ['administrateur', 'pilote'] %}
+        <form method="post" action="/offers/delete">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            
+            <input type="hidden" name="id" value="{{ offer.id }}">
+            <button type="submit" class="btn btn--danger">Supprimer</button>
+        </form>
+        {% else %}
+        <p>Connecte-toi pour postuler.</p>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

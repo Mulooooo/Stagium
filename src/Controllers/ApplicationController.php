@@ -11,6 +11,11 @@ class ApplicationController extends Controller{
     }
     public function apply(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('offers/show.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+            
             $applicationModel = new ApplicationModel();
             if (!$applicationModel->hasAlreadyApplied($_SESSION['user_id'], $_POST['offre_id'])) {
                 $cv = $_FILES['cv'];
