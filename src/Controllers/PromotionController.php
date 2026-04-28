@@ -49,6 +49,11 @@ class PromotionController extends Controller {
 
     public function addStudent() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('promotions/show.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
             $promotionModel = new PromotionModel();
             $promotionModel->addStudent($_POST['promotion_id'], $_POST['utilisateur_id']);
             header('Location: /promotions/show?id=' . $_POST['promotion_id']);
@@ -58,6 +63,11 @@ class PromotionController extends Controller {
 
     public function addPilot() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('promotions/show.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
             $promotionModel = new PromotionModel();
             $promotionModel->addPilot($_POST['promotion_id'], $_POST['utilisateur_id']);
             header('Location: /promotions/show?id=' . $_POST['promotion_id']);
@@ -67,6 +77,11 @@ class PromotionController extends Controller {
 
     public function removeStudent() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('promotions/show.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
             $promotionModel = new PromotionModel();
             $promotionModel->removeStudent($_POST['promotion_id'], $_POST['utilisateur_id']);
             header('Location: /promotions/show?id=' . $_POST['promotion_id']);
@@ -76,6 +91,11 @@ class PromotionController extends Controller {
 
     public function removePilot() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('promotions/show.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
             $promotionModel = new PromotionModel();
             $promotionModel->removePilot($_POST['promotion_id'], $_POST['utilisateur_id']);
             header('Location: /promotions/show?id=' . $_POST['promotion_id']);
