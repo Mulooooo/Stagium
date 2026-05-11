@@ -25,16 +25,27 @@ class StudentController extends Controller {
     }
     public function create(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $error = null;
+            $studentModel = new StudentModel();
             if (!\App\Core\Csrf::verify()) {
-                $this->render('students/create.html.twig', ['error' => 'Jeton CSRF invalide']);
+                $error = "Jeton CSRF invalide";
+            } elseif (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                $error = "Email invalide.";
+            } elseif ($studentModel->emailExists($_POST['email'])) {
+                $error = 'Cet email est déjà utilisé.';
+            } elseif (empty($_POST['nom'])) {
+                $error = "Le nom est obligatoire.";
+            } elseif (empty($_POST['prenom'])) {
+                $error = "Le prénom est obligatoire.";
+            } elseif (!empty($_POST['mot_de_passe']) && strlen($_POST['mot_de_passe']) < 8) {
+                $error = "Le mot de passe doit faire au moins 8 caractères.";
+            }
+
+            if ($error) {
+                $this->render('students/create.html.twig', ['error' => $error]);
                 return;
             }
 
-            $studentModel = new StudentModel();
-            if ($studentModel->emailExists($_POST['email'])) {
-                $this->render("students/create.html.twig", ['error' => 'Cet email est déjà utilisé.']);
-                return;
-            }
             $data = $_POST;
             $data['mot_de_passe'] = password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT);
             $studentModel->create($data);
@@ -51,16 +62,27 @@ class StudentController extends Controller {
         }
         $studentModel = new StudentModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $error = null;
             if (!\App\Core\Csrf::verify()) {
-                $this->render('students/edit.html.twig', ['error' => 'Jeton CSRF invalide']);
-                return;
+                $error = "Jeton CSRF invalide";
+            } elseif (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                $error = "Email invalide.";
+            } elseif ($studentModel->emailExistsForOther($_POST['email'], $_POST['id'])) {
+                $error = 'Cet email est déjà utilisé.';
+            } elseif (empty($_POST['nom'])) {
+                $error = "Le nom est obligatoire.";
+            } elseif (empty($_POST['prenom'])) {
+                $error = "Le prénom est obligatoire.";
+            } elseif (!empty($_POST['mot_de_passe']) && strlen($_POST['mot_de_passe']) < 8) {
+                $error = "Le mot de passe doit faire au moins 8 caractères.";
             }
 
-            if ($studentModel->emailExistsForOther($_POST['email'], $id)) {
+            if ($error) {
                 $student = $studentModel->findById($id);
-                $this->render("students/edit.html.twig", ['student' => $student, 'error' => 'Cet email est déjà utilisé.']);
+                $this->render("students/edit.html.twig", ['student' => $student, 'error' => $error]);
                 return;
             }
+            
             $data = $_POST;
             if (empty($data['mot_de_passe'])) {
                 $student = $studentModel->findById($id);

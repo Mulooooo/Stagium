@@ -25,14 +25,23 @@ class PilotController extends Controller {
     }
     public function create(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!\App\Core\Csrf::verify()) {
-                $this->render('pilots/create.html.twig', ['error' => 'Jeton CSRF invalide']);
-                return;
-            }
-
+            $error = null;
             $pilotModel = new PilotModel();
-            if ($pilotModel->emailExists($_POST['email'])) {
-                $this->render("pilots/create.html.twig", ['error' => 'Cet email est déjà utilisé.']);
+            if (!\App\Core\Csrf::verify()) {
+                $error = "Jeton CSRF invalide";
+            } elseif (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                $error = "Email invalide.";
+            } elseif ($pilotModel->emailExists($_POST['email'])) {
+                $error = 'Cet email est déjà utilisé.';
+            } elseif (empty($_POST['nom'])) {
+                $error = "Le nom est obligatoire.";
+            } elseif (empty($_POST['prenom'])) {
+                $error = "Le prénom est obligatoire.";
+            } elseif (!empty($_POST['mot_de_passe']) && strlen($_POST['mot_de_passe']) < 8) {
+                $error = "Le mot de passe doit faire au moins 8 caractères.";
+            }
+            if ($error) {
+                $this->render('pilots/create.html.twig', ['error' => $error]);
                 return;
             }
             $data = $_POST;
@@ -51,14 +60,24 @@ class PilotController extends Controller {
         }
         $pilotModel = new PilotModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $error = null;
+            $pilotModel = new PilotModel();
             if (!\App\Core\Csrf::verify()) {
-                $this->render('pilots/edit.html.twig', ['error' => 'Jeton CSRF invalide']);
-                return;
+                $error = "Jeton CSRF invalide";
+            } elseif (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                $error = "Email invalide.";
+            } elseif ($pilotModel->emailExistsForOther($_POST['email'], $id)) {
+                $error = 'Cet email est déjà utilisé.';
+            } elseif (empty($_POST['nom'])) {
+                $error = "Le nom est obligatoire.";
+            } elseif (empty($_POST['prenom'])) {
+                $error = "Le prénom est obligatoire.";
+            } elseif (!empty($_POST['mot_de_passe']) && strlen($_POST['mot_de_passe']) < 8) {
+                $error = "Le mot de passe doit faire au moins 8 caractères.";
             }
-
-            if ($pilotModel->emailExistsForOther($_POST['email'], $id)) {
+            if ($error) {
                 $pilot = $pilotModel->findById($id);
-                $this->render("pilots/edit.html.twig", ['pilot' => $pilot, 'error' => 'Cet email est déjà utilisé.']);
+                $this->render('pilots/edit.html.twig', ['pilot' => $pilot, 'error' => $error]);
                 return;
             }
             $data = $_POST;

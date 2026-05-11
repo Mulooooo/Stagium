@@ -45,8 +45,21 @@ class OfferController extends Controller{
     public function create(){
         $offerModel = new OfferModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $error = null;
             if (!\App\Core\Csrf::verify()) {
-                $this->render('offers/create.html.twig', ['error' => 'Jeton CSRF invalide']);
+                $error = 'Jeton CSRF invalide';
+            } elseif (empty($_POST['titre'])) {
+                $error = "Le titre est obligatoire.";
+            } elseif (empty($_POST['date_debut'])) {
+                $error = "La date de début est obligatoire.";
+            } elseif (empty($_POST['duree_semaines']) || $_POST['duree_semaines'] < 1 || $_POST['duree_semaines'] > 52) {
+                $error = "La durée doit être entre 1 et 52 semaines.";
+            } elseif (empty($_POST['site_entreprise_id'])) {
+                $error = "L'entreprise est obligatoire.";
+            }
+            if ($error) {
+                $sites = $offerModel->getSites();
+                $this->render('offers/create.html.twig', ['error' => $error, 'sites' => $sites]);
                 return;
             }
 
@@ -66,8 +79,20 @@ class OfferController extends Controller{
         }
         $offerModel = new OfferModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $error = null;
             if (!\App\Core\Csrf::verify()) {
-                $this->render('offers/edit.html.twig', ['error' => 'Jeton CSRF invalide']);
+                $error = 'Jeton CSRF invalide';
+            } elseif (empty($_POST['titre'])) {
+                $error = "Le titre est obligatoire.";
+            } elseif (empty($_POST['date_debut'])) {
+                $error = "La date de début est obligatoire.";
+            } elseif (empty($_POST['duree_semaines']) || $_POST['duree_semaines'] < 1 || $_POST['duree_semaines'] > 52) {
+                $error = "La durée doit être entre 1 et 52 semaines.";
+            }
+            if ($error) {
+                $offer = $offerModel->getOfferById($id);
+                $sites = $offerModel->getSites();
+                $this->render('offers/edit.html.twig', ['error' => $error, 'offer' => $offer, 'sites' => $sites]);
                 return;
             }
             
