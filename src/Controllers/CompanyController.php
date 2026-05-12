@@ -41,7 +41,13 @@ class CompanyController extends Controller{
                 return;
             }
 
-            $data = $_POST;
+            $data = [
+                ':siren' => $_POST['siren'],
+                ':nom' => $_POST['nom'],
+                ':description' => $_POST['description'],
+                ':email' => $_POST['email'],
+                ':telephone' => $_POST['telephone']
+            ];
             $companyModel = new CompanyModel();
             $company = $companyModel->create($data);
             header('Location: /companies');
@@ -62,7 +68,13 @@ class CompanyController extends Controller{
                 return;
             }
 
-            $data = $_POST;
+            $data = [
+                ':siren' => $_POST['siren'],
+                ':nom' => $_POST['nom'],
+                ':description' => $_POST['description'],
+                ':email' => $_POST['email'],
+                ':telephone' => $_POST['telephone']
+            ];
             $company = $companyModel->update($id, $data);
             header('Location: /companies');
             exit;

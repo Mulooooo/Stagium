@@ -18,7 +18,12 @@ class ProfileController extends Controller {
             }
 
             $userModel = new UserModel();
-            $userModel->update($_SESSION['user_id'], $_POST);
+            $data = [
+                'prenom' => $_POST['prenom'],
+                'nom' => $_POST['nom'],
+                'email' => $_POST['email']
+            ];
+            $userModel->update($_SESSION['user_id'], $data);
             $_SESSION['user_prenom'] = $_POST['prenom'];
             $_SESSION['user_nom'] = $_POST['nom'];
             $_SESSION['user_initials'] = strtoupper(substr($_POST['prenom'], 0, 1) . substr($_POST['nom'], 0, 1));

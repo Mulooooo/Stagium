@@ -63,7 +63,14 @@ class OfferController extends Controller{
                 return;
             }
 
-            $data = $_POST;
+            $data = [
+                'titre' => $_POST['titre'],
+                'description' => $_POST['description'],
+                'gratification' => $_POST['gratification'],
+                'date_debut' => $_POST['date_debut'],
+                'duree_semaines' => $_POST['duree_semaines'],
+                'site_entreprise_id' => $_POST['site_entreprise_id']
+            ];
             $offer = $offerModel->create($data);
             header('Location: /offers');
             exit;
@@ -96,7 +103,14 @@ class OfferController extends Controller{
                 return;
             }
             
-            $data = $_POST;
+            $data = [
+                'titre' => $_POST['titre'],
+                'description' => $_POST['description'],
+                'gratification' => $_POST['gratification'],
+                'date_debut' => $_POST['date_debut'],
+                'duree_semaines' => $_POST['duree_semaines'],
+                'site_entreprise_id' => $_POST['site_entreprise_id']
+            ];
             $offer = $offerModel->update($id, $data);
             header('Location: /offers');
             exit;

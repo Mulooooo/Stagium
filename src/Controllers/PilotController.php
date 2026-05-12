@@ -44,7 +44,13 @@ class PilotController extends Controller {
                 $this->render('pilots/create.html.twig', ['error' => $error]);
                 return;
             }
-            $data = $_POST;
+            
+            $data = [
+                'nom' => $_POST['nom'],
+                'prenom' => $_POST['prenom'],
+                'email' => $_POST['email'],
+                'mot_de_passe' => password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT)
+            ];
             $data['mot_de_passe'] = password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT);
             $pilotModel->create($data);
             header('Location: /pilots');
@@ -80,7 +86,13 @@ class PilotController extends Controller {
                 $this->render('pilots/edit.html.twig', ['pilot' => $pilot, 'error' => $error]);
                 return;
             }
-            $data = $_POST;
+            
+            $data = [
+                'nom' => $_POST['nom'],
+                'prenom' => $_POST['prenom'],
+                'email' => $_POST['email'],
+                'mot_de_passe' => empty($_POST['mot_de_passe']) ? $studentModel->findById($id)['mot_de_passe'] : password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT)
+            ];
             if (empty($data['mot_de_passe'])) {
                 $pilot = $pilotModel->findById($id);
                 $data['mot_de_passe'] = $pilot['mot_de_passe'];

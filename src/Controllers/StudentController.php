@@ -45,8 +45,13 @@ class StudentController extends Controller {
                 $this->render('students/create.html.twig', ['error' => $error]);
                 return;
             }
-
-            $data = $_POST;
+            
+            $data = [
+                'nom' => $_POST['nom'],
+                'prenom' => $_POST['prenom'],
+                'email' => $_POST['email'],
+                'mot_de_passe' => password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT)
+            ];
             $data['mot_de_passe'] = password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT);
             $studentModel->create($data);
             header('Location: /students');
@@ -83,7 +88,12 @@ class StudentController extends Controller {
                 return;
             }
             
-            $data = $_POST;
+            $data = [
+                'nom' => $_POST['nom'],
+                'prenom' => $_POST['prenom'],
+                'email' => $_POST['email'],
+                'mot_de_passe' => empty($_POST['mot_de_passe']) ? $studentModel->findById($id)['mot_de_passe'] : password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT)
+            ];
             if (empty($data['mot_de_passe'])) {
                 $student = $studentModel->findById($id);
                 $data['mot_de_passe'] = $student['mot_de_passe'];

@@ -40,7 +40,13 @@ class PromotionController extends Controller {
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $promotionModel = new PromotionModel();
-            $promotionModel->create($_POST);
+            $data = [
+                'filiere' => $_POST['filiere'],
+                'type_cycle' => $_POST['type_cycle'],
+                'annee_cycle' => $_POST['annee_cycle'],
+                'annee_scolaire' => $_POST['annee_scolaire']
+            ];
+            $promotionModel->create($data);
             header('Location: /promotions');
             exit;
         }
