@@ -14,6 +14,7 @@
     <p class="offer-detail__location">email : {{ company.email }}</p>
     <p class="offer-detail__date">telephone : {{ company.telephone }}</p>
     <p class="offer-detail__duration">SIREN : {{ company.siren }}</p>
+    <p class="offer-detail__date">Stagiaires ayant postulé : {{ candidaturesCount }}</p>
     {% if user_role in ['pilote', 'administrateur'] %}
     <div class="offer-detail__actions">
         <a href="/companies/edit?id={{ company.id }}" class="btn btn--primary">Modifier</a>
@@ -49,6 +50,11 @@
 
 <div class="content-card">
     <h2 class="content-card__title">Évaluations</h2>
+    {% if averageEvaluation %}
+    <p class="offer-detail__date">Note moyenne : {{ averageEvaluation }}/5</p>
+    {% else %}
+    <p class="offer-detail__date">Aucune évaluation</p>
+    {% endif %}
     {% if evaluations %}
         {% for eval in evaluations %}
         <div class="content-card" style="margin-bottom: 0.75rem;">
