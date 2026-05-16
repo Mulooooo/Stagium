@@ -32,10 +32,10 @@ class ApplicationController extends Controller{
             if (!$applicationModel->hasAlreadyApplied($_SESSION['user_id'], $_POST['offre_id'])) {
                 $cv = $_FILES['cv'];
                 $lm = $_FILES['lm'];
-                $cv_destination = dirname(__DIR__, 2) . '/storage/cv/' . uniqid() . '_' . $cv['name'];
-                $lm_destination = dirname(__DIR__, 2) . '/storage/lm/' . uniqid() . '_' . $lm['name'];
-                move_uploaded_file($cv['tmp_name'], $cv_destination);
-                move_uploaded_file($lm['tmp_name'], $lm_destination);
+                $cv_destination = 'storage/cv/' . uniqid() . '_' . $cv['name'];
+                $lm_destination = 'storage/lm/' . uniqid() . '_' . $lm['name'];
+                move_uploaded_file($cv['tmp_name'], dirname(__DIR__, 2) . '/' . $cv_destination);
+                move_uploaded_file($lm['tmp_name'], dirname(__DIR__, 2) . '/' . $lm_destination);
                 $applicationModel->apply(['chemin_cv' => $cv_destination, 'chemin_lm' => $lm_destination, 'offre_id' => $_POST['offre_id'], 'utilisateur_id' => $_SESSION['user_id']]);
             }
             header('Location: /student/applications');
@@ -47,5 +47,28 @@ class ApplicationController extends Controller{
         $applicationModel = new ApplicationModel();
         $applications = $applicationModel->getPilotStudentsApplications($id);
         $this->render('pilot/applications.html.twig', ["applications" => $applications]);
+    }
+
+    public function serveFile() {
+        $path = $_GET['path'] ?? null;
+        $fullPath = dirname(__DIR__, 2) . '/' . $path;
+        
+        if (!$path || !file_exists($fullPath)) {
+            http_response_code(404);
+            die('Fichier introuvable.');
+        }
+
+        if ($_SESSION['user_role'] === 'etudiant') {
+            $applicationModel = new ApplicationModel();
+            $isOwner = $applicationModel->isFileOwner($_SESSION['user_id'], $path);
+            if (!$isOwner) {
+                http_response_code(403);
+                die('Accès refusé.');
+            }
+        }
+
+        header('Content-Type: application/pdf');
+        readfile($fullPath);
+        exit;
     }
 }

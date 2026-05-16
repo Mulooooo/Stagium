@@ -657,3 +657,22 @@ input[type="file"] {
     margin-bottom: 0.5rem;
 }
 
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.5rem;
+    background: var(--clr-bg);
+    padding: 1rem;
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius);
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.skills-grid label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+}

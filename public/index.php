@@ -15,6 +15,14 @@ use App\Controllers\EvaluationController;
 use App\Controllers\ProfileController;
 use App\Controllers\PromotionController;
 
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => true,
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
+
 session_start();
 
 $db = App\Models\Database::getInstance();
@@ -73,5 +81,7 @@ $r->addRoute('/promotions/addPilot', [PromotionController::class, 'addPilot'], [
 $r->addRoute('/promotions/removeStudent', [PromotionController::class, 'removeStudent'], ['pilote', 'administrateur']);
 $r->addRoute('/promotions/removePilot', [PromotionController::class, 'removePilot'], ['administrateur']);
 $r->addRoute('/promotions/delete', [PromotionController::class, 'delete'], ['administrateur']);
+
+$r->addRoute('/storage/file', [ApplicationController::class, 'serveFile'], ['etudiant', 'pilote', 'administrateur']);
 
 $r->run();

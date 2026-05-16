@@ -35,11 +35,12 @@ class OfferController extends Controller{
             $applicationModel = new \App\Models\ApplicationModel();
             $alreadyApplied = $applicationModel->hasAlreadyApplied($_SESSION['user_id'], $id);
         }
+        $candidaturesCount = $offerModel->getCandidaturesCount($id);
         if (!$offer) {
             http_response_code(404);
             return;
         } else {
-            $this->render("offers/show.html.twig", ['offer' => $offer, 'is_saved' => $isSaved, 'already_applied' => $alreadyApplied]);
+            $this->render("offers/show.html.twig", ['offer' => $offer, 'is_saved' => $isSaved, 'already_applied' => $alreadyApplied, 'candidaturesCount' => $candidaturesCount]);
         }
     }
     public function create(){
@@ -59,7 +60,8 @@ class OfferController extends Controller{
             }
             if ($error) {
                 $sites = $offerModel->getSites();
-                $this->render('offers/create.html.twig', ['error' => $error, 'sites' => $sites]);
+                $skills = $offerModel->getAllSkills();
+                $this->render('offers/create.html.twig', ['error' => $error, 'sites' => $sites, 'skills' => $skills]);
                 return;
             }
 
@@ -72,11 +74,21 @@ class OfferController extends Controller{
                 'site_entreprise_id' => $_POST['site_entreprise_id']
             ];
             $offer = $offerModel->create($data);
+            $skills = $_POST['skills'] ?? [];
+            if (!empty($_POST['new_skill'])) {
+                $newSkillId = $offerModel->createSkill($_POST['new_skill']);
+                $skills[] = $newSkillId;
+            }
+            if (!empty($skills)) {
+                $offerModel->attachSkills($offer, $skills);
+            }
             header('Location: /offers');
             exit;
         }
         $sites = $offerModel->getSites();
-        $this->render("offers/create.html.twig", ['sites' => $sites]);
+        $skills = $offerModel->getAllSkills();
+
+        $this->render("offers/create.html.twig", ['sites' => $sites, 'skills' => $skills]);
     }
     public function edit(){
         $id = $_GET['id'] ?? null;
@@ -99,25 +111,35 @@ class OfferController extends Controller{
             if ($error) {
                 $offer = $offerModel->getOfferById($id);
                 $sites = $offerModel->getSites();
-                $this->render('offers/edit.html.twig', ['error' => $error, 'offer' => $offer, 'sites' => $sites]);
+                $skills = $offerModel->getAllSkills();
+                $this->render('offers/edit.html.twig', ['error' => $error, 'offer' => $offer, 'sites' => $sites, 'skills' => $skills]);
                 return;
             }
             
             $data = [
-                'titre' => $_POST['titre'],
-                'description' => $_POST['description'],
-                'gratification' => $_POST['gratification'],
-                'date_debut' => $_POST['date_debut'],
-                'duree_semaines' => $_POST['duree_semaines'],
-                'site_entreprise_id' => $_POST['site_entreprise_id']
+                ':titre' => $_POST['titre'],
+                ':description' => $_POST['description'],
+                ':gratification' => $_POST['gratification'],
+                ':date_debut' => $_POST['date_debut'],
+                ':duree_semaines' => $_POST['duree_semaines'],
+                ':site_entreprise_id' => $_POST['site_entreprise_id']
             ];
-            $offer = $offerModel->update($id, $data);
+            $offerModel->update($id, $data);
+            $skills = $_POST['skills'] ?? [];
+            if (!empty($_POST['new_skill'])) {
+                $newSkillId = $offerModel->createSkill($_POST['new_skill']);
+                $skills[] = $newSkillId;
+            }
+            if (!empty($skills)) {
+                $offerModel->attachSkills($id, $skills);
+            }
             header('Location: /offers');
             exit;
         }
         $offer = $offerModel->getOfferById($id);
         $sites = $offerModel->getSites();
-        $this->render("offers/edit.html.twig", ['offer' => $offer, 'sites' => $sites]);
+        $skills = $offerModel->getAllSkills();
+        $this->render("offers/edit.html.twig", ['offer' => $offer, 'sites' => $sites, 'skills' => $skills]);
     }
     public function delete(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -40,6 +40,26 @@
             <label class="form-field__label" for="description">Description</label>
             <textarea class="form-field__input" id="description" name="description" required>{{ offer.description }}</textarea>
         </div>
+        <div class="form-field">
+            <label class="form-field__label">Compétences</label>
+            <div class="skills-grid">
+                {% for skill in skills %}
+                <label>
+                    <input type="checkbox" name="skills[]" value="{{ skill.id }}"
+                        {% for s in offer.skills %}
+                            {% if s.libelle == skill.libelle %}checked{% endif %}
+                        {% endfor %}>
+                    {{ skill.libelle }}
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="form-field">
+            <label class="form-field__label">Nouvelle compétence</label>
+            <div class="filter-row">
+                <input class="form-field__input" type="text" name="new_skill" placeholder="Ex: React, Docker...">
+            </div>
+        </div>
         <button type="submit" class="btn btn--primary">Modifier</button>
     </form>
 </div>

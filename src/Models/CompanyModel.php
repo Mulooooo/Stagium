@@ -78,4 +78,17 @@ class CompanyModel extends Model{
             ':pays' => $pays
         ]);
     }
+
+    public function getCandidaturesCount(int $entrepriseId): int {
+        $stmt = $this->db->prepare("SELECT COUNT(DISTINCT CANDIDATURE.utilisateur_id) FROM CANDIDATURE JOIN OFFRE_STAGE ON CANDIDATURE.offre_id = OFFRE_STAGE.id JOIN SITE_ENTREPRISE ON OFFRE_STAGE.site_entreprise_id = SITE_ENTREPRISE.id WHERE SITE_ENTREPRISE.entreprise_id = :id");
+        $stmt->execute([':id' => $entrepriseId]);
+        return $stmt->fetchColumn();
+    }
+
+    public function getAverageEvaluation(int $entrepriseId): ?float {
+        $stmt = $this->db->prepare("SELECT ROUND(AVG(EVALUATION.note), 1) FROM EVALUATION JOIN CONCERNE_ENTREPRISE ON EVALUATION.id = CONCERNE_ENTREPRISE.evaluation_id WHERE CONCERNE_ENTREPRISE.entreprise_id = :id");
+        $stmt->execute([':id' => $entrepriseId]);
+        $result = $stmt->fetchColumn();
+        return $result ? $result : null;
+    }
 }

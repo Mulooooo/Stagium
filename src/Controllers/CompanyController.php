@@ -31,7 +31,10 @@ class CompanyController extends Controller{
 
         $evaluationModel = new EvaluationModel();
         $evaluations = $evaluationModel->getByEntreprise($id);
-        $this->render("companies/show.html.twig", ['company' => $company, 'offers' => $offers, 'evaluations' => $evaluations, 'sites' => $sites]);
+
+        $candidaturesCount = $companyModel->getCandidaturesCount($id);
+        $averageEvaluation = $companyModel->getAverageEvaluation($id);
+        $this->render("companies/show.html.twig", ['company' => $company, 'offers' => $offers, 'evaluations' => $evaluations, 'sites' => $sites, 'candidaturesCount' => $candidaturesCount, 'averageEvaluation' => $averageEvaluation]);
     }
 
     public function create(){

@@ -9,6 +9,9 @@
     <a href="/offers/show?id={{ application.offre_id }}" class="content-card__title">{{ application.titre }}</a>
     <p class="offer-detail__company">{{ application.nom }}</p>
     <p class="offer-detail__location">{{ application.ville }}</p>
+    <p class="offer-detail__date">Postulé le : {{ application.date_candidature }}</p>
+    <a href="/storage/file?path={{ application.chemin_cv }}" target="_blank">Voir CV</a>
+    <a href="/storage/file?path={{ application.chemin_lm }}" target="_blank">Voir LM</a>
 </div>
 {% endfor %}
 {% endblock %}

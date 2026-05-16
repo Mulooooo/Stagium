@@ -81,7 +81,8 @@ class OfferModel extends Model{
     }
     public function create($data){
         $stmt = $this->db->prepare("INSERT INTO OFFRE_STAGE (titre, description, gratification, date_debut, duree_semaines, site_entreprise_id) VALUES (:titre, :description, :gratification, :date_debut, :duree_semaines, :site_entreprise_id);");
-        return $stmt->execute($data);
+        $stmt->execute($data);
+        return $this->db->lastInsertId();
     }
     public function update($id, $data){
         $stmt = $this->db->prepare("UPDATE OFFRE_STAGE SET titre=:titre, description=:description, gratification=:gratification, date_debut=:date_debut, duree_semaines=:duree_semaines, site_entreprise_id=:site_entreprise_id  WHERE id=:id;");
@@ -120,5 +121,29 @@ class OfferModel extends Model{
             'top_wishlist' => $topWishlist,
             'repartition_duree' => $repartitionDuree
         ];
+    }
+
+    public function getCandidaturesCount(int $offerId): int {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM CANDIDATURE WHERE offre_id = :id");
+        $stmt->execute([':id' => $offerId]);
+        return (int) $stmt->fetchColumn();
+    }
+
+    public function getAllSkills(): array {
+        return $this->db->query("SELECT * FROM COMPETENCE ORDER BY libelle ASC")->fetchAll();
+    }
+
+    public function attachSkills(int $offerId, array $skillIds): void {
+        $this->db->prepare("DELETE FROM REQUIERT WHERE offre_id = ?")->execute([$offerId]);
+        $stmt = $this->db->prepare("INSERT INTO REQUIERT (offre_id, competence_id) VALUES (?, ?)");
+        foreach ($skillIds as $skillId) {
+            $stmt->execute([$offerId, $skillId]);
+        }
+    }
+
+    public function createSkill(string $libelle): int {
+        $stmt = $this->db->prepare("INSERT INTO COMPETENCE (libelle) VALUES (?)");
+        $stmt->execute([$libelle]);
+        return (int) $this->db->lastInsertId();
     }
 }
