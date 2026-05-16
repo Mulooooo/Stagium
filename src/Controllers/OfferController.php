@@ -75,6 +75,10 @@ class OfferController extends Controller{
             ];
             $offer = $offerModel->create($data);
             $skills = $_POST['skills'] ?? [];
+            if (!empty($_POST['new_skill'])) {
+                $newSkillId = $offerModel->createSkill($_POST['new_skill']);
+                $skills[] = $newSkillId;
+            }
             if (!empty($skills)) {
                 $offerModel->attachSkills($offer, $skills);
             }
@@ -122,6 +126,10 @@ class OfferController extends Controller{
             ];
             $offerModel->update($id, $data);
             $skills = $_POST['skills'] ?? [];
+            if (!empty($_POST['new_skill'])) {
+                $newSkillId = $offerModel->createSkill($_POST['new_skill']);
+                $skills[] = $newSkillId;
+            }
             if (!empty($skills)) {
                 $offerModel->attachSkills($id, $skills);
             }

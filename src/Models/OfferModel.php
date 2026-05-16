@@ -140,4 +140,10 @@ class OfferModel extends Model{
             $stmt->execute([$offerId, $skillId]);
         }
     }
+
+    public function createSkill(string $libelle): int {
+        $stmt = $this->db->prepare("INSERT INTO COMPETENCE (libelle) VALUES (?)");
+        $stmt->execute([$libelle]);
+        return (int) $this->db->lastInsertId();
+    }
 }
