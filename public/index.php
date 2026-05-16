@@ -15,6 +15,14 @@ use App\Controllers\EvaluationController;
 use App\Controllers\ProfileController;
 use App\Controllers\PromotionController;
 
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => true,
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
+
 session_start();
 
 $db = App\Models\Database::getInstance();
