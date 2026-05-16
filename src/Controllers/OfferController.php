@@ -35,11 +35,12 @@ class OfferController extends Controller{
             $applicationModel = new \App\Models\ApplicationModel();
             $alreadyApplied = $applicationModel->hasAlreadyApplied($_SESSION['user_id'], $id);
         }
+        $candidaturesCount = $offerModel->getCandidaturesCount($id);
         if (!$offer) {
             http_response_code(404);
             return;
         } else {
-            $this->render("offers/show.html.twig", ['offer' => $offer, 'is_saved' => $isSaved, 'already_applied' => $alreadyApplied]);
+            $this->render("offers/show.html.twig", ['offer' => $offer, 'is_saved' => $isSaved, 'already_applied' => $alreadyApplied, 'candidaturesCount' => $candidaturesCount]);
         }
     }
     public function create(){

@@ -121,4 +121,10 @@ class OfferModel extends Model{
             'repartition_duree' => $repartitionDuree
         ];
     }
+
+    public function getCandidaturesCount(int $offerId): int {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM CANDIDATURE WHERE offre_id = :id");
+        $stmt->execute([':id' => $offerId]);
+        return (int) $stmt->fetchColumn();
+    }
 }

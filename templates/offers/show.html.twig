@@ -16,6 +16,7 @@
         <p class="offer-detail__date">Début : {{ offer.date_debut }}</p>
         <p class="offer-detail__duration">{{ offer.duree_semaines }} semaines</p>
         <p class="offer-detail__salary">{{ offer.gratification }}€/mois</p>
+        <p class="offer-detail__date">{{ candidaturesCount }} étudiant(s) ont postulé</p>
         
         <div class="offer-detail__actions">
             {% if user_role == 'etudiant' %}
