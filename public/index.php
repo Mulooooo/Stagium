@@ -74,4 +74,6 @@ $r->addRoute('/promotions/removeStudent', [PromotionController::class, 'removeSt
 $r->addRoute('/promotions/removePilot', [PromotionController::class, 'removePilot'], ['administrateur']);
 $r->addRoute('/promotions/delete', [PromotionController::class, 'delete'], ['administrateur']);
 
+$r->addRoute('/storage/file', [ApplicationController::class, 'serveFile'], ['etudiant', 'pilote', 'administrateur']);
+
 $r->run();

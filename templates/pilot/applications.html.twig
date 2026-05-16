@@ -12,6 +12,9 @@
     <a href="/students/show?id={{ application.etudiant_id }}" class="offer-detail__location">
         {{ application.etudiant_prenom }} {{ application.etudiant_nom }}
     </a>
+    <p class="offer-detail__date">Postulé le : {{ application.date_candidature }}</p>
+    <a href="/storage/file?path={{ application.chemin_cv }}" target="_blank">Voir CV</a>
+    <a href="/storage/file?path={{ application.chemin_lm }}" target="_blank">Voir LM</a>
 </div>
 {% endfor %}
 {% endblock %}
