@@ -19,7 +19,7 @@ class WishlistModel extends Model{
         return $return;
     }
     public function getSavedOffers($userId){
-        $stmt = $this->db->prepare("SELECT OFFRE_STAGE.id, OFFRE_STAGE.titre, ENTREPRISE.nom, SITE_ENTREPRISE.ville FROM FAVORI JOIN OFFRE_STAGE ON FAVORI.offre_id = OFFRE_STAGE.id JOIN SITE_ENTREPRISE ON OFFRE_STAGE.site_entreprise_id = SITE_ENTREPRISE.id JOIN ENTREPRISE ON SITE_ENTREPRISE.entreprise_id = ENTREPRISE.id WHERE FAVORI.utilisateur_id = :utilisateur_id;");
+        $stmt = $this->db->prepare("SELECT OFFRE_STAGE.id, OFFRE_STAGE.titre, OFFRE_STAGE.date_debut, OFFRE_STAGE.duree_semaines, OFFRE_STAGE.gratification, ENTREPRISE.nom, SITE_ENTREPRISE.ville FROM FAVORI JOIN OFFRE_STAGE ON FAVORI.offre_id = OFFRE_STAGE.id JOIN SITE_ENTREPRISE ON OFFRE_STAGE.site_entreprise_id = SITE_ENTREPRISE.id JOIN ENTREPRISE ON SITE_ENTREPRISE.entreprise_id = ENTREPRISE.id WHERE FAVORI.utilisateur_id = :utilisateur_id;");
         $stmt->execute([':utilisateur_id' => $userId]);
         return $stmt->fetchAll();
     }
