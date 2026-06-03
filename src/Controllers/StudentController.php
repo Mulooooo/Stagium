@@ -92,14 +92,7 @@ class StudentController extends Controller {
                 'nom' => $_POST['nom'],
                 'prenom' => $_POST['prenom'],
                 'email' => $_POST['email'],
-                'mot_de_passe' => empty($_POST['mot_de_passe']) ? $studentModel->findById($id)['mot_de_passe'] : password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT)
-            ];
-            if (empty($data['mot_de_passe'])) {
-                $student = $studentModel->findById($id);
-                $data['mot_de_passe'] = $student['mot_de_passe'];
-            } else {
-                $data['mot_de_passe'] = password_hash($data['mot_de_passe'], PASSWORD_DEFAULT);
-            }
+                'mot_de_passe' => empty($_POST['mot_de_passe']) ? $studentModel->findById($id)['mot_de_passe'] : password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT)];
             $studentModel->update($id, $data);
             header('Location: /students');
             exit;
