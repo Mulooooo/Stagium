@@ -626,13 +626,6 @@ input[type="file"] {
     color: var(--clr-text-muted);
 }
 
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
 .stat-card {
     background: var(--clr-surface);
     border: 1px solid var(--clr-border);
@@ -675,4 +668,13 @@ input[type="file"] {
     gap: 0.5rem;
     font-size: 0.9rem;
     cursor: pointer;
+}
+
+.stats-carousel {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.stats-carousel .stat-card {
+    flex: 1;
 }

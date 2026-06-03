@@ -15,7 +15,9 @@
     </div>
 
     <h2>Stagium en chiffres</h2>
-    <div class="stats-grid">
+    <div class="stats-carousel">
+        <button id="carousel-prev" class="btn btn--primary">&#8592;</button>
+
         <div class="stat-card">
             <p class="stat-card__value">{{ stats.total }}</p>
             <p class="stat-card__label">Offres disponibles</p>
@@ -36,5 +38,7 @@
             <p>{{ item.duree_semaines }} semaines -> {{ item.nb }} offres</p>
             {% endfor %}
         </div>
+
+        <button id="carousel-next" class="btn btn--primary">&#8594;</button>
     </div>
 {% endblock %}

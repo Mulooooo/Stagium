@@ -38,3 +38,18 @@ document.querySelectorAll('input[type="file"]').forEach(input => {
         }
     });
 });
+
+const cards = document.querySelectorAll('.stat-card');
+let current = 0;
+
+function showCard(index) {
+    cards.forEach((c, i) => c.style.display = i === index ? 'block' : 'none');
+    document.getElementById('carousel-prev').disabled = index === 0;
+    document.getElementById('carousel-next').disabled = index === cards.length - 1;
+}
+
+if (cards.length > 0) {
+    showCard(0);
+    document.getElementById('carousel-prev').addEventListener('click', () => showCard(--current));
+    document.getElementById('carousel-next').addEventListener('click', () => showCard(++current));
+}
