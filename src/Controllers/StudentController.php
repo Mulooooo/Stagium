@@ -6,12 +6,13 @@ class StudentController extends Controller {
     public function index(){
         $page = $_GET['page'] ?? 1;
         $limit = 6;
+        $q = $_GET['q'] ?? '';
         $studentModel = new StudentModel();
-        $students = $studentModel->getAll($page, $limit);
+        $students = $q ? $studentModel->search($q, $page, $limit) : $studentModel->getAll($page, $limit);
         $total = $students['total'];
         $items = $students['items'];
         $totalPages = ceil($total / $limit);
-        $this->render("students/index.html.twig", ['students' => $items, 'total_pages' => $totalPages, 'current_page' => $page]);
+        $this->render("students/index.html.twig", ['students' => $items, 'total_pages' => $totalPages, 'current_page' => $page, 'filters' => ['q' => $q]]);
     }
     public function show(){
         $id = $_GET['id'] ?? null;
