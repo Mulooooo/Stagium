@@ -65,6 +65,12 @@ class ApplicationController extends Controller{
                 http_response_code(403);
                 die('Accès refusé.');
             }
+        } elseif ($_SESSION['user_role'] === 'pilote') {
+            $applicationModel = new ApplicationModel();
+            if (!$applicationModel->isFileBelongsToPilotStudent($_SESSION['user_id'], $path)) {
+                http_response_code(403);
+                die('Accès refusé.');
+            }
         }
 
         header('Content-Type: application/pdf');
