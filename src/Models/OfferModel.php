@@ -137,7 +137,7 @@ class OfferModel extends Model{
 
         return [
             'total' => $total,
-            'avg_candidatures' => round($avgCandidatures, 1),
+            'avg_candidatures' => round((float) $avgCandidatures, 1),
             'top_wishlist' => $topWishlist,
             'repartition_duree' => $repartitionDuree
         ];

@@ -47,7 +47,7 @@ class OfferModelTest extends TestCase {
         ];
 
         $created = $this->offerModel->create($data);
-        $this->assertTrue($created);
+        $this->assertGreaterThan(0, (int) $created);
 
         $result = $this->offerModel->searchOffers(['q' => 'Offre Test PHPUnit', 'location' => ''], 1, 1);
         $this->assertCount(1, $result['items']);
