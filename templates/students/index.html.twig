@@ -22,11 +22,11 @@
 </div>
 <div class="pagination">
     {% if current_page > 1 %}
-    <a href="/students?page={{ current_page - 1 }}" class="pagination__btn">Précédent</a>
+    <a href="/students?page={{ current_page - 1 }}&q={{ filters.q }}" class="pagination__btn">Précédent</a>
     {% endif %}
     <span class="pagination__info">Page {{ current_page }} / {{ total_pages }}</span>
     {% if current_page < total_pages %}
-    <a href="/students?page={{ current_page + 1 }}" class="pagination__btn">Suivant</a>
+    <a href="/students?page={{ current_page + 1 }}&q={{ filters.q }}" class="pagination__btn">Suivant</a>
     {% endif %}
 </div>
 {% endblock %}

@@ -39,6 +39,10 @@ class PromotionController extends Controller {
 
     public function create() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                $this->render('promotions/create.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
             $promotionModel = new PromotionModel();
             $data = [
                 'filiere' => $_POST['filiere'],
@@ -111,6 +115,10 @@ class PromotionController extends Controller {
 
     public function delete() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!\App\Core\Csrf::verify()) {
+                header('Location: /promotions');
+                return;
+            }
             $promotionModel = new PromotionModel();
             $promotionModel->delete($_POST['id']);
             header('Location: /promotions');

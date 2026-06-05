@@ -6,12 +6,13 @@ class StudentController extends Controller {
     public function index(){
         $page = $_GET['page'] ?? 1;
         $limit = 6;
+        $q = $_GET['q'] ?? '';
         $studentModel = new StudentModel();
-        $students = $studentModel->getAll($page, $limit);
+        $students = $q ? $studentModel->search($q, $page, $limit) : $studentModel->getAll($page, $limit);
         $total = $students['total'];
         $items = $students['items'];
         $totalPages = ceil($total / $limit);
-        $this->render("students/index.html.twig", ['students' => $items, 'total_pages' => $totalPages, 'current_page' => $page]);
+        $this->render("students/index.html.twig", ['students' => $items, 'total_pages' => $totalPages, 'current_page' => $page, 'filters' => ['q' => $q]]);
     }
     public function show(){
         $id = $_GET['id'] ?? null;
@@ -52,7 +53,6 @@ class StudentController extends Controller {
                 'email' => $_POST['email'],
                 'mot_de_passe' => password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT)
             ];
-            $data['mot_de_passe'] = password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT);
             $studentModel->create($data);
             header('Location: /students');
             exit;
@@ -92,14 +92,7 @@ class StudentController extends Controller {
                 'nom' => $_POST['nom'],
                 'prenom' => $_POST['prenom'],
                 'email' => $_POST['email'],
-                'mot_de_passe' => empty($_POST['mot_de_passe']) ? $studentModel->findById($id)['mot_de_passe'] : password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT)
-            ];
-            if (empty($data['mot_de_passe'])) {
-                $student = $studentModel->findById($id);
-                $data['mot_de_passe'] = $student['mot_de_passe'];
-            } else {
-                $data['mot_de_passe'] = password_hash($data['mot_de_passe'], PASSWORD_DEFAULT);
-            }
+                'mot_de_passe' => empty($_POST['mot_de_passe']) ? $studentModel->findById($id)['mot_de_passe'] : password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT)];
             $studentModel->update($id, $data);
             header('Location: /students');
             exit;

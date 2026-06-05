@@ -6,12 +6,13 @@ class PilotController extends Controller {
     public function index(){
         $page = $_GET['page'] ?? 1;
         $limit = 6;
+        $q = $_GET['q'] ?? '';
         $pilotModel = new PilotModel();
-        $pilots = $pilotModel->getAll($page, $limit);
+        $pilots = $q ? $pilotModel->search($q, $page, $limit) : $pilotModel->getAll($page, $limit);
         $total = $pilots['total'];
         $items = $pilots['items'];
         $totalPages = ceil($total / $limit);
-        $this->render("pilots/index.html.twig", ['pilots' => $items, 'total_pages' => $totalPages, 'current_page' => $page]);
+        $this->render("pilots/index.html.twig", ['pilots' => $items, 'total_pages' => $totalPages, 'current_page' => $page, 'filters' => ['q' => $q]]);
     }
     public function show(){
         $id = $_GET['id'] ?? null;
@@ -51,7 +52,6 @@ class PilotController extends Controller {
                 'email' => $_POST['email'],
                 'mot_de_passe' => password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT)
             ];
-            $data['mot_de_passe'] = password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT);
             $pilotModel->create($data);
             header('Location: /pilots');
             exit;
@@ -67,7 +67,6 @@ class PilotController extends Controller {
         $pilotModel = new PilotModel();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = null;
-            $pilotModel = new PilotModel();
             if (!\App\Core\Csrf::verify()) {
                 $error = "Jeton CSRF invalide";
             } elseif (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
@@ -91,14 +90,8 @@ class PilotController extends Controller {
                 'nom' => $_POST['nom'],
                 'prenom' => $_POST['prenom'],
                 'email' => $_POST['email'],
-                'mot_de_passe' => empty($_POST['mot_de_passe']) ? $studentModel->findById($id)['mot_de_passe'] : password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT)
+                'mot_de_passe' => empty($_POST['mot_de_passe']) ? $pilotModel->findById($id)['mot_de_passe'] : password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT)
             ];
-            if (empty($data['mot_de_passe'])) {
-                $pilot = $pilotModel->findById($id);
-                $data['mot_de_passe'] = $pilot['mot_de_passe'];
-            } else {
-                $data['mot_de_passe'] = password_hash($data['mot_de_passe'], PASSWORD_DEFAULT);
-            }
             $pilotModel->update($id, $data);
             header('Location: /pilots');
             exit;

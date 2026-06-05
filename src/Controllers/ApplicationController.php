@@ -32,8 +32,8 @@ class ApplicationController extends Controller{
             if (!$applicationModel->hasAlreadyApplied($_SESSION['user_id'], $_POST['offre_id'])) {
                 $cv = $_FILES['cv'];
                 $lm = $_FILES['lm'];
-                $cv_destination = 'storage/cv/' . uniqid() . '_' . $cv['name'];
-                $lm_destination = 'storage/lm/' . uniqid() . '_' . $lm['name'];
+                $cv_destination = 'storage/cv/' . uniqid() . '_' . basename($cv['name']);
+                $lm_destination = 'storage/lm/' . uniqid() . '_' . basename($lm['name']);
                 move_uploaded_file($cv['tmp_name'], dirname(__DIR__, 2) . '/' . $cv_destination);
                 move_uploaded_file($lm['tmp_name'], dirname(__DIR__, 2) . '/' . $lm_destination);
                 $applicationModel->apply(['chemin_cv' => $cv_destination, 'chemin_lm' => $lm_destination, 'offre_id' => $_POST['offre_id'], 'utilisateur_id' => $_SESSION['user_id']]);
@@ -62,6 +62,12 @@ class ApplicationController extends Controller{
             $applicationModel = new ApplicationModel();
             $isOwner = $applicationModel->isFileOwner($_SESSION['user_id'], $path);
             if (!$isOwner) {
+                http_response_code(403);
+                die('Accès refusé.');
+            }
+        } elseif ($_SESSION['user_role'] === 'pilote') {
+            $applicationModel = new ApplicationModel();
+            if (!$applicationModel->isFileBelongsToPilotStudent($_SESSION['user_id'], $path)) {
                 http_response_code(403);
                 die('Accès refusé.');
             }

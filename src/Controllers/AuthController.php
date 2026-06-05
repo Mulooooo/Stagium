@@ -20,6 +20,7 @@ class AuthController extends Controller{
                 $_SESSION['user_nom'] = $user['nom'];
                 $_SESSION['user_prenom'] = $user['prenom'];
                 $_SESSION['user_role'] = $user['role'];
+                session_regenerate_id(true);
                 header('Location: /');
                 exit;
             }

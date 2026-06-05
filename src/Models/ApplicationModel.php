@@ -27,4 +27,10 @@ class ApplicationModel extends Model{
         $stmt->execute([':user_id' => $userId, ':path' => $path, ':path2' => $path]);
         return $stmt->fetchColumn() > 0;
     }
+
+    public function isFileBelongsToPilotStudent(int $pilotId, string $path): bool {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM CANDIDATURE JOIN INSCRIT ON CANDIDATURE.utilisateur_id = INSCRIT.utilisateur_id JOIN GERE ON INSCRIT.promotion_id = GERE.promotion_id WHERE GERE.utilisateur_id = :pilote_id AND (chemin_cv = :path OR chemin_lm = :path2)");
+        $stmt->execute([':pilote_id' => $pilotId, ':path' => $path, ':path2' => $path]);
+        return $stmt->fetchColumn() > 0;
+    }
 }

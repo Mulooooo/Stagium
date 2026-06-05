@@ -44,6 +44,21 @@ class CompanyController extends Controller{
                 return;
             }
 
+            $error = null;
+            if (empty($_POST['nom'])) {
+                $error = "Le nom est obligatoire.";
+            } elseif (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                $error = "Email invalide.";
+            } elseif (!preg_match('/^\d{9}$/', $_POST['siren'] ?? '')) {
+                $error = "SIREN invalide (9 chiffres requis).";
+            } elseif (!preg_match('/^\d{10}$/', $_POST['telephone'] ?? '')) {
+                $error = "Téléphone invalide (10 chiffres requis).";
+            }
+            if ($error) {
+                $this->render('companies/create.html.twig', ['error' => $error]);
+                return;
+            }
+
             $data = [
                 ':siren' => $_POST['siren'],
                 ':nom' => $_POST['nom'],
@@ -68,6 +83,21 @@ class CompanyController extends Controller{
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!\App\Core\Csrf::verify()) {
                 $this->render('companies/edit.html.twig', ['error' => 'Jeton CSRF invalide']);
+                return;
+            }
+
+            $error = null;
+            if (empty($_POST['nom'])) {
+                $error = "Le nom est obligatoire.";
+            } elseif (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                $error = "Email invalide.";
+            } elseif (!preg_match('/^\d{9}$/', $_POST['siren'] ?? '')) {
+                $error = "SIREN invalide (9 chiffres requis).";
+            } elseif (!preg_match('/^\d{10}$/', $_POST['telephone'] ?? '')) {
+                $error = "Téléphone invalide (10 chiffres requis).";
+            }
+            if ($error) {
+                $this->render('companies/create.html.twig', ['error' => $error]);
                 return;
             }
 

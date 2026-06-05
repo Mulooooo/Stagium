@@ -17,6 +17,21 @@ class ProfileController extends Controller {
                 return;
             }
 
+            $error = null;
+            if (empty($_POST['prenom'])) {
+                $error = "Le prénom est obligatoire.";
+            } elseif (empty($_POST['nom'])) {
+                $error = "Le nom est obligatoire.";
+            } elseif (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+                $error = "Email invalide.";
+            }
+            if ($error) {
+                $userModel = new UserModel();
+                $user = $userModel->findById($_SESSION['user_id']);
+                $this->render('profile/index.html.twig', ['user' => $user, 'error' => $error]);
+                return;
+            }
+
             $userModel = new UserModel();
             $data = [
                 'prenom' => $_POST['prenom'],

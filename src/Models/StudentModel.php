@@ -15,7 +15,7 @@ class StudentModel extends Model {
         return ['items' => $stmt->fetchAll(), 'total' => $total];
     }
     public function findById($id){
-        $stmt = $this->db->prepare("SELECT * FROM UTILISATEUR WHERE role = 'etudiant' and id = :id");
+        $stmt = $this->db->prepare("SELECT * FROM UTILISATEUR LEFT JOIN ETUDIANT ON UTILISATEUR.id = ETUDIANT.utilisateur_id WHERE UTILISATEUR.role = 'etudiant' AND UTILISATEUR.id = :id");
         $stmt->execute([':id' => $id]);
         return $stmt->fetch();
     }
@@ -45,5 +45,20 @@ class StudentModel extends Model {
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM UTILISATEUR WHERE email = :email AND id != :id");
         $stmt->execute([':email' => $email, ':id' => $currentId]);
         return $stmt->fetchColumn() > 0;
+    }
+
+    public function search(string $q, int $page, int $limit): array {
+        $offset = ($page - 1) * $limit;
+        $like = '%' . $q . '%';
+        $stmt = $this->db->prepare("SELECT * FROM UTILISATEUR WHERE role = 'etudiant' AND (nom LIKE :q OR prenom LIKE :q2 OR email LIKE :q3) LIMIT :limit OFFSET :offset");
+        $stmt->bindValue(':q', $like);
+        $stmt->bindValue(':q2', $like);
+        $stmt->bindValue(':q3', $like);
+        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, \PDO::PARAM_INT);
+        $stmt->execute();
+        $countStmt = $this->db->prepare("SELECT COUNT(*) FROM UTILISATEUR WHERE role = 'etudiant' AND (nom LIKE :q OR prenom LIKE :q2 OR email LIKE :q3)");
+        $countStmt->execute([':q' => $like, ':q2' => $like, ':q3' => $like]);
+        return ['items' => $stmt->fetchAll(), 'total' => $countStmt->fetchColumn()];
     }
 }
