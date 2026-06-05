@@ -52,7 +52,6 @@ class PilotController extends Controller {
                 'email' => $_POST['email'],
                 'mot_de_passe' => password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT)
             ];
-            $data['mot_de_passe'] = password_hash($_POST['mot_de_passe'], PASSWORD_DEFAULT);
             $pilotModel->create($data);
             header('Location: /pilots');
             exit;
