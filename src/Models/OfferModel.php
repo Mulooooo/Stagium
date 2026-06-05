@@ -21,14 +21,34 @@ class OfferModel extends Model{
         $params = [];
 
         if (!empty($filters['q'])) {
-            $sql .= " AND (OFFRE_STAGE.titre LIKE :q OR ENTREPRISE.nom LIKE :q2)";
+            $sql .= " AND (OFFRE_STAGE.titre LIKE :q OR ENTREPRISE.nom LIKE :q2 OR OFFRE_STAGE.description LIKE :q3)";
             $params[':q'] = '%' . $filters['q'] . '%';
             $params[':q2'] = '%' . $filters['q'] . '%';
+            $params[':q3'] = '%' . $filters['q'] . '%';
         }
 
         if (!empty($filters['location'])) {
             $sql .= " AND SITE_ENTREPRISE.ville LIKE :location";
             $params[':location'] = '%' . $filters['location'] . '%';
+        }
+
+        if (!empty($filters['remuneration_min'])) {
+            $sql .= " AND OFFRE_STAGE.gratification >= :remuneration_min";
+            $params[':remuneration_min'] = (int) $filters['remuneration_min'];
+        }
+
+        if (!empty($filters['duree_semaines'])) {
+            $sql .= " AND OFFRE_STAGE.duree_semaines = :duree_semaines";
+            $params[':duree_semaines'] = (int) $filters['duree_semaines'];
+        }
+
+        if (!empty($filters['skill'])) {
+            $sql .= " AND OFFRE_STAGE.id IN (
+                SELECT REQUIERT.offre_id FROM REQUIERT
+                JOIN COMPETENCE ON REQUIERT.competence_id = COMPETENCE.id
+                WHERE COMPETENCE.libelle LIKE :skill
+            )";
+            $params[':skill'] = '%' . $filters['skill'] . '%';
         }
 
         $countStmt = $this->db->prepare("SELECT COUNT(*) FROM ($sql) AS sub");

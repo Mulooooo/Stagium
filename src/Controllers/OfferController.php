@@ -9,6 +9,10 @@ class OfferController extends Controller{
         $limit = 6;
         $filters["q"] = $_GET['q'] ?? '';
         $filters["location"] = $_GET['location'] ?? '';
+        $filters["remuneration_min"] = $_GET['remuneration_min'] ?? '';
+        $filters["duree_semaines"] = $_GET['duree_semaines'] ?? '';
+        $filters["skill"] = $_GET['skill'] ?? '';
+        $filters["location"] = $_GET['location'] ?? '';
         $offerModel = new OfferModel();
         $offers = $offerModel->searchOffers($filters, $page, $limit);
         $total = $offers['total'];

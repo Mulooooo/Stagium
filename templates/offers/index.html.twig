@@ -13,6 +13,10 @@
             <input class="search-bar__input" type="text" name="q" value="{{ filters.q }}" placeholder="Rechercher une offre...">
             <div class="filter-row">
                 <input class="filter-select" type="text" name="location" value="{{ filters.location }}" placeholder="Ville...">
+                <input class="filter-select" type="number" name="remuneration_min" value="{{ filters.remuneration_min }}" placeholder="Rémunération min...">
+                <input class="filter-select" type="number" name="duree_semaines" min="1" max="52" value="{{ filters.duree_semaines }}" placeholder="Durée (semaines)...">
+                <input class="filter-select" type="text" name="skill" value="{{ filters.skill }}" placeholder="Compétence...">
+                
                 <button class="btn btn--primary" type="submit">Rechercher</button>
             </div>
         </form>
@@ -26,11 +30,11 @@
 
     <div class="pagination">
         {% if current_page > 1 %}
-            <a href="/offers?page={{ current_page - 1 }}&q={{ filters.q }}&location={{ filters.location }}" class="pagination__btn">Précédent</a>
+            <a href="/offers?page={{ current_page - 1 }}&q={{ filters.q }}&location={{ filters.location }}&remuneration_min={{ filters.remuneration_min }}&duree_semaines={{ filters.duree_semaines }}&skill={{ filters.skill }}" class="pagination__btn">Précédent</a>
         {% endif %}
         <span class="pagination__info">Page {{ current_page }} / {{ total_pages }}</span>
         {% if current_page < total_pages %}
-            <a href="/offers?page={{ current_page + 1 }}&q={{ filters.q }}&location={{ filters.location }}" class="pagination__btn">Suivant</a>
+            <a href="/offers?page={{ current_page + 1 }}&q={{ filters.q }}&location={{ filters.location }}&remuneration_min={{ filters.remuneration_min }}&duree_semaines={{ filters.duree_semaines }}&skill={{ filters.skill }}" class="pagination__btn">Suivant</a>
         {% endif %}
     </div>
 {% endblock %}
