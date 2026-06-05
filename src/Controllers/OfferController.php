@@ -12,7 +12,6 @@ class OfferController extends Controller{
         $filters["remuneration_min"] = $_GET['remuneration_min'] ?? '';
         $filters["duree_semaines"] = $_GET['duree_semaines'] ?? '';
         $filters["skill"] = $_GET['skill'] ?? '';
-        $filters["location"] = $_GET['location'] ?? '';
         $offerModel = new OfferModel();
         $offers = $offerModel->searchOffers($filters, $page, $limit);
         $total = $offers['total'];
@@ -83,9 +82,7 @@ class OfferController extends Controller{
                 $newSkillId = $offerModel->createSkill($_POST['new_skill']);
                 $skills[] = $newSkillId;
             }
-            if (!empty($skills)) {
-                $offerModel->attachSkills($offer, $skills);
-            }
+            $offerModel->attachSkills($offer, $skills);
             header('Location: /offers');
             exit;
         }
@@ -134,9 +131,7 @@ class OfferController extends Controller{
                 $newSkillId = $offerModel->createSkill($_POST['new_skill']);
                 $skills[] = $newSkillId;
             }
-            if (!empty($skills)) {
-                $offerModel->attachSkills($id, $skills);
-            }
+            $offerModel->attachSkills($id, $skills);
             header('Location: /offers');
             exit;
         }
