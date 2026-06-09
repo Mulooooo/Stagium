@@ -72,7 +72,7 @@ class StudentController extends Controller {
                 $error = "Jeton CSRF invalide";
             } elseif (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
                 $error = "Email invalide.";
-            } elseif ($studentModel->emailExistsForOther($_POST['email'], $_POST['id'])) {
+            } elseif ($studentModel->emailExistsForOther($_POST['email'], (int)$id)) {
                 $error = 'Cet email est déjà utilisé.';
             } elseif (empty($_POST['nom'])) {
                 $error = "Le nom est obligatoire.";

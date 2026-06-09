@@ -10,7 +10,8 @@ class ApplicationController extends Controller{
         $this->render("student/applications.html.twig", ["applications" => $applications]);
     }
     public function apply(){
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {            
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {    
+            $error = null;        
             if (!\App\Core\Csrf::verify()) {
                 $error = 'Jeton CSRF invalide';
             } elseif ($_FILES['cv']['error'] !== UPLOAD_ERR_OK || $_FILES['lm']['error'] !== UPLOAD_ERR_OK) {
